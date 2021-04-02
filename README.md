@@ -2,6 +2,14 @@
 
 基于萤石云 sdk
 
+## 效果预览
+
+<div >
+  <image src='./screenshot/realplay.jpeg' style='width: 375px; height: 667px;'>
+  <image src='./screenshot/alarmList.jpeg' style='width: 375px; height: 667px;'>
+  <image src='./screenshot/playback.jpeg' style='width: 375px; height: 667px;'>
+</div>
+
 **Android 端：**
 
 - [x] 实现 EzvizView 原生组件，用于查看实时画面
@@ -164,7 +172,7 @@ dependencies {
 import Ezvizview, { initSDK, openLoginPage } from 'react-native-ezvizview';
 ```
 
-// 第一步：在 MainApplication 中初始化 sdk
+**第一步：在 MainApplication 中初始化 sdk**
 
 android/app/src/.../MainApplication.java
 
@@ -185,17 +193,17 @@ public class MainApplication extends Application implements ReactApplication {
 
 并且确保 android/app/build.gradle 文件中的 applicationId 与萤石开放平台申请的 bundleId 一致。
 
-// 第二步：获取 accessToken（如果是从服务器获取的 accessToken，那就直接进入下一步。）
+**第二步：获取 accessToken（如果是从服务器获取的 accessToken，那就直接进入下一步。）**
 
 ```js
 openLoginPage();
 ```
 
-// 第三步：获取播放监控实时画面必要的信息：设备序列号、通道号、设备验证码；
+**第三步：获取播放监控实时画面必要的信息：设备序列号、通道号、设备验证码；**
 
 ...
 
-// 第四步：展示 EzvizView 组件或 EzvizPlaybackView 组件；
+**第四步：展示 EzvizView 组件或 EzvizPlaybackView 组件；**
 
 ```js
 //实时预览
