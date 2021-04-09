@@ -230,6 +230,39 @@ onPlayFailed={() => consolle.log('play failed')}
 />
 ```
 
+## API
+
+**EzvizView组件：实时预览组件**
+
+Prop | 描述
+| -- | -- |
+|deviceSerial| 设备序列号 | 
+|cameraNo | 通道号 |
+|verifyCode| 验证码，用于解密 |
+|onPlaySuccess | 播放成功的回调函数 |
+|onPlayFailed | 播放失败的回调函数 |
+
+**EzvizPlaybackView组件：录像回放组件**
+
+Prop | 描述
+| -- | -- |
+|deviceSerial| 设备序列号 | 
+|cameraNo | 通道号 |
+|verifyCode| 验证码，用于解密 |
+| startTime | 录像开始时间 |
+| endTime | 录像结束时间 |
+| onCompletion | 录像播放结束的回调 |
+|onPlaySuccess | 播放成功的回调函数 |
+|onPlayFailed | 播放失败的回调函数 |
+
+**Ezviz模块：**
+
+|方法名 | 描述 |
+| --- | --- |
+|getEzAccessToken| 获取EZOpenSdk缓存的AccessToken |
+|initSDK| 初始化sdk，暂不使用，目前还在MainApplication.java中初始化sdk |
+|decryptUrl| 解密告警消息图片url |
+
 ## 参考
 
 - [萤石云开放平台文档](https://open.ys7.com/doc/zh/)

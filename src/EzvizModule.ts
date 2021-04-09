@@ -28,6 +28,7 @@ export async function getEzAccessToken(): Promise<EzAccessTokenRes> {
   const EXPIRED: boolean = ezvizInfo.expire ? NOW - ezvizInfo.expire > 0 : true;
   if (EXPIRED) {
     let res = await RNEzvizview.getAccessToken();
+    console.log('getEzAccessToken', res);
     return res;
   } else {
     return {

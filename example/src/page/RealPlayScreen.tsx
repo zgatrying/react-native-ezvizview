@@ -59,7 +59,7 @@ export default function RealyPlayScreen({ route }: Props) {
             setDirection(PTZ_POZITION.UP);
           }}
           title="上"
-        ></Button>
+        />
         <Button
           onPress={() => {
             setPTZ({
@@ -72,10 +72,10 @@ export default function RealyPlayScreen({ route }: Props) {
             setDirection(PTZ_POZITION.DOWN);
           }}
           title="下"
-        ></Button>
+        />
         <Button
           onPress={() => {
-            if (direction != '停') {
+            if (direction !== '停') {
               stopPTZ({
                 accessToken,
                 deviceSerial: deviceSerial,
@@ -85,7 +85,7 @@ export default function RealyPlayScreen({ route }: Props) {
             }
           }}
           title="停"
-        ></Button>
+        />
         <Button
           onPress={() => {
             setPTZ({
@@ -98,7 +98,7 @@ export default function RealyPlayScreen({ route }: Props) {
             setDirection(PTZ_POZITION.LEFT);
           }}
           title="左"
-        ></Button>
+        />
         <Button
           onPress={() => {
             setPTZ({
@@ -111,7 +111,7 @@ export default function RealyPlayScreen({ route }: Props) {
             setDirection(PTZ_POZITION.RIGHT);
           }}
           title="右"
-        ></Button>
+        />
         <Text style={[styles.text, styles.subTitle]}>布撤防</Text>
         <Button
           title="布防"

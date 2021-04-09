@@ -11,6 +11,10 @@
 #import <React/RCTBundleURLProvider.h>
 #import <React/RCTRootView.h>
 
+#import <EZOpenSDKFramework/EZOpenSDK.h>
+#import <EZOpenSDKFramework/EZHCNetDeviceSDK.h>
+#define EZOPENSDK [EZOpenSDK class]
+
 #ifdef FB_SONARKIT_ENABLED
 #import <FlipperKit/FlipperClient.h>
 #import <FlipperKitLayoutPlugin/FlipperKitLayoutPlugin.h>
@@ -48,6 +52,13 @@ static void InitializeFlipper(UIApplication *application) {
   rootViewController.view = rootView;
   self.window.rootViewController = rootViewController;
   [self.window makeKeyAndVisible];
+  
+//  init ezviz sdk
+  [EZOPENSDK setDebugLogEnable:YES];
+  [EZOPENSDK initLibWithAppKey: @"a74a7554f19b42ca9646b84cfad7b9ab"];
+  [EZHCNetDeviceSDK initSDK];
+  NSLog(@"EZOpenSDK Version = %@", [EZOPENSDK getVersion]);
+  
   return YES;
 }
 

@@ -1,7 +1,14 @@
+//
+//  EzvizPlaybackViewManager.m
+//  react-native-ezvizview
+//
+//  Created by Mac on 2021/4/9.
+//
+
 #import <React/RCTViewManager.h>
 #import <EZOpenSDKFramework/EZPlayer.h>
 
-@interface EzvizviewViewManager : RCTViewManager<EZPlayerDelegate>
+@interface EzvizPlaybackViewManager : RCTViewManager<EZPlayerDelegate>
 
 @property (nonatomic, strong) UIView *signView;
 -(void) pause:(nonnull NSNumber *)reactTag;
@@ -10,20 +17,15 @@
 -(void) releasePlayer:(nonnull NSNumber *)reactTag;
 @end
 
-@implementation EzvizviewViewManager
+@implementation EzvizPlaybackViewManager
+
+RCT_EXPORT_MODULE("RCTEzvizPlaybackView")
 
 @synthesize signView;
-@synthesize bridge = _bridge;
 
-//MARK: 定义供JS使用的组件名
-RCT_EXTERN void RCTRegisterModule(Class);
-+ (NSString *)moduleName
+- (void) dealloc
 {
-  return @"RCTEzvizView";
-}
-+ (void)load
-{
-  RCTRegisterModule(self);
+    
 }
 
 - (UIView *)view
@@ -32,27 +34,21 @@ RCT_EXTERN void RCTRegisterModule(Class);
     return signView;
 }
 
-//MARK: 定义组件的属性
+RCT_CUSTOM_VIEW_PROPERTY(deviceSerial, NSString, UIView)
+{
+  
+}
 
-RCT_EXPORT_VIEW_PROPERTY(deviceSerial, NSString);
-RCT_EXPORT_VIEW_PROPERTY(cameraNo, NSNumber);
-RCT_EXPORT_VIEW_PROPERTY(verifyCode, NSString);
+RCT_CUSTOM_VIEW_PROPERTY(cameraNo, NSInt, UIView)
+{
+  
+}
 
-//RCT_CUSTOM_VIEW_PROPERTY(deviceSerial, NSString, UIView)
-//{
-//    NSLog(@"set deviceSerial");
-//}
-//
-//RCT_CUSTOM_VIEW_PROPERTY(cameraNo, NSInt, UIView)
-//{
-//    NSLog(@"set cameraNo");
-//}
-//
-//RCT_CUSTOM_VIEW_PROPERTY(verifyCode, NSString, UIView)
-//{
-//    NSLog(@"set verifyCode");
-//}
-//
+RCT_CUSTOM_VIEW_PROPERTY(verifyCode, NSString, UIView)
+{
+  
+}
+
 RCT_EXPORT_METHOD(pause: (nonnull NSNumber *) reactTag)
 {
     RCTLog(@"native pause");
