@@ -41,7 +41,9 @@ export default class EzvizView extends Component<
   _setRoot = (node) => {
     if (node) {
       this._rctRzvizView = node;
-      this.startPlayer();
+
+      // 由于ios端触发ref回调时，prop属性还未赋值到原生组件，因此不再在ref回调中执行播放动作。
+      // this.startPlayer();
     }
   };
 
@@ -170,6 +172,7 @@ export default class EzvizView extends Component<
           verifyCode={verifyCode}
           onPlaySuccess={this._onPlaySuccess}
           onPlayFailed={this._onPlayFailed}
+          onLoad={() => this.startPlayer()}
         />
         {isLoading && this.renderWithMask(<Loading />)}
         <PlayControl

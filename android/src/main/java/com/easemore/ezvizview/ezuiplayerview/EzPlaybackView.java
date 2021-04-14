@@ -48,6 +48,7 @@ public class EzPlaybackView extends EZUIPlayerView implements SurfaceHolder.Call
     EVENT_PLAY_SUCCESS("onPlaySuccess"),
     EVENT_PLAY_FAILED("onPlayFailed"),
     EVENT_COMPLETION("onCompletion");
+    EVENT_LOAD("onLoad");
 
     private final String mName;
 
@@ -117,6 +118,7 @@ public class EzPlaybackView extends EZUIPlayerView implements SurfaceHolder.Call
         super(context);
         mContext = context;
         mEZUIPlayerView = this;
+        emitEventToJS(Events.EVENT_LOAD.toString(), null);
     }
 
     public void createPlayer() {

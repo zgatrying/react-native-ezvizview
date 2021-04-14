@@ -17,6 +17,10 @@
 - (void)startRealPlay;
 - (void)pause;
 
+@property (nonatomic, copy) RCTBubblingEventBlock onLoad;
+@property (nonatomic, copy) RCTBubblingEventBlock onPlaySuccess;
+@property (nonatomic, copy) RCTBubblingEventBlock onPlayFailed;
+
 - (void)setDeviceSerial:(NSString *) deviceSerial;
 - (void)setCameraNo:(NSInteger) cameraNo;
 - (void)setVerifyCode:(NSString *) verifyCode;

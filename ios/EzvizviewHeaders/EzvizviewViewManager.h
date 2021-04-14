@@ -7,6 +7,8 @@
 #import <React/RCTViewManager.h>
 #import "EzvizPlayerView.h"
 
+@class EzvizPlayerView;
+
 @interface EzvizviewViewManager : RCTViewManager
 
 @property (nonatomic, strong) EzvizPlayerView *playerView;
@@ -15,4 +17,5 @@
 -(void) replay:(nonnull NSNumber *)reactTag;
 -(void) createPlayer:(nonnull NSNumber *)reactTag;
 -(void) releasePlayer:(nonnull NSNumber *)reactTag;
+
 @end

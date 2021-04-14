@@ -13,6 +13,7 @@ export type RCTEzvizViewProps = {
   verifyCode: string;
   onPlaySuccess: () => void;
   onPlayFailed: (event: NativeSyntheticEvent<onPlayFailedEvent>) => void;
+  onLoad: () => void;
 };
 
 export type RCTEzvizPlaybackViewProps = {

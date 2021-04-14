@@ -29,6 +29,7 @@
     [super layoutSubviews];
     if(!_loaded) {
         NSLog(@"load subviews");
+        self.onLoad(@{});
     }
     _loaded = true;
 }
@@ -110,7 +111,7 @@
         }
     }
     //提示JS播放失败
-    
+    self.onPlayFailed(@{@"errorCode": @(error.code)});
 }
 
 - (void)player:(EZPlayer *)player didReceivedMessage:(NSInteger)messageCode
@@ -118,6 +119,7 @@
     NSLog(@"player: %@, didReceivedMessage: %d", player, (int)messageCode);
     if (messageCode == PLAYER_REALPLAY_START) {
         _isPlaying = YES;
+        self.onPlaySuccess(@{});
         if(!_isOpenSound)
         {
             [_player closeSound];
@@ -127,9 +129,6 @@
     {
         [_player stopRealPlay];
         [_player startRealPlay];
-    } else
-    {
-        
     }
 }
 

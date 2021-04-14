@@ -2,6 +2,7 @@
 #import <React/RCTBridge.h>
 #import <EZOpenSDKFramework/EZPlayer.h>
 #import "EzvizviewHeaders/EzvizviewViewManager.h"
+#import "EzvizviewHeaders/EzvizPlayerView.h"
 
 @implementation EzvizviewViewManager
 
@@ -27,7 +28,7 @@ RCT_EXPORT_VIEW_PROPERTY(verifyCode, NSString);
 
 - (UIView *)view
 {
-    self.playerView = [[EzvizPlayerView alloc] init];
+    playerView = [[EzvizPlayerView alloc] init];
     return playerView;
 }
 
@@ -63,5 +64,9 @@ RCT_EXPORT_METHOD(releasePlayer: (nonnull NSNumber *) reactTag)
         [self.playerView releasePlayer];
     });
 }
+
+RCT_EXPORT_VIEW_PROPERTY(onLoad, RCTBubblingEventBlock)
+RCT_EXPORT_VIEW_PROPERTY(onPlaySuccess, RCTBubblingEventBlock)
+RCT_EXPORT_VIEW_PROPERTY(onPlayFailed, RCTBubblingEventBlock)
 
 @end
