@@ -1,5 +1,4 @@
 #import <React/RCTBridgeModule.h>
-#import <React/RCTBridge.h>
 #import <EZOpenSDKFramework/EZPlayer.h>
 #import "EzvizviewHeaders/EzvizviewViewManager.h"
 #import "EzvizviewHeaders/EzvizPlayerView.h"
@@ -7,7 +6,6 @@
 @implementation EzvizviewViewManager
 
 @synthesize playerView;
-@synthesize bridge = _bridge;
 
 //MARK: 定义供JS使用的组件名
 RCT_EXTERN void RCTRegisterModule(Class);
@@ -65,8 +63,8 @@ RCT_EXPORT_METHOD(releasePlayer: (nonnull NSNumber *) reactTag)
     });
 }
 
-RCT_EXPORT_VIEW_PROPERTY(onLoad, RCTBubblingEventBlock)
-RCT_EXPORT_VIEW_PROPERTY(onPlaySuccess, RCTBubblingEventBlock)
-RCT_EXPORT_VIEW_PROPERTY(onPlayFailed, RCTBubblingEventBlock)
+RCT_EXPORT_VIEW_PROPERTY(onLoad, RCTDirectEventBlock)
+RCT_EXPORT_VIEW_PROPERTY(onPlaySuccess, RCTDirectEventBlock)
+RCT_EXPORT_VIEW_PROPERTY(onPlayFailed, RCTDirectEventBlock)
 
 @end

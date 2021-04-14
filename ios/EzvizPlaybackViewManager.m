@@ -8,7 +8,7 @@
 #import <React/RCTViewManager.h>
 #import <EZOpenSDKFramework/EZPlayer.h>
 
-@interface EzvizPlaybackViewManager : RCTViewManager<EZPlayerDelegate>
+@interface EzvizPlaybackViewManager : RCTViewManager
 
 @property (nonatomic, strong) UIView *signView;
 -(void) pause:(nonnull NSNumber *)reactTag;
@@ -19,34 +19,23 @@
 
 @implementation EzvizPlaybackViewManager
 
-RCT_EXPORT_MODULE("RCTEzvizPlaybackView")
+//MARK: 定义供JS使用的组件名
+RCT_EXTERN void RCTRegisterModule(Class);
++ (NSString *)moduleName
+{
+  return @"RCTEzvizPlaybackView";
+}
++ (void)load
+{
+  RCTRegisterModule(self);
+}
 
 @synthesize signView;
-
-- (void) dealloc
-{
-    
-}
 
 - (UIView *)view
 {
     self.signView = [[UIView alloc] init];
     return signView;
-}
-
-RCT_CUSTOM_VIEW_PROPERTY(deviceSerial, NSString, UIView)
-{
-  
-}
-
-RCT_CUSTOM_VIEW_PROPERTY(cameraNo, NSInt, UIView)
-{
-  
-}
-
-RCT_CUSTOM_VIEW_PROPERTY(verifyCode, NSString, UIView)
-{
-  
 }
 
 RCT_EXPORT_METHOD(pause: (nonnull NSNumber *) reactTag)
@@ -67,28 +56,6 @@ RCT_EXPORT_METHOD(createPlayer: (nonnull NSNumber *) reactTag)
 RCT_EXPORT_METHOD(releasePlayer: (nonnull NSNumber *) reactTag)
 {
     RCTLog(@"native releasePlayer");
-}
-
-/**
- *  播放器播放失败错误回调
- *
- *  @param player 播放器对象
- *  @param error  播放器错误
- */
-- (void)player:(EZPlayer *)player didPlayFailed:(NSError *)error
-{
-    
-}
-
-/**
- *  播放器消息回调
- *
- *  @param player      播放器对象
- *  @param messageCode 播放器消息码，请对照EZOpenSDK头文件中的EZMessageCode使用
- */
-- (void)player:(EZPlayer *)player didReceivedMessage:(NSInteger)messageCode
-{
-    
 }
 
 @end

@@ -54,4 +54,14 @@ RCT_EXPORT_METHOD(openLoginPage)
     });
 }
 
+RCT_EXPORT_METHOD(decryptData: (NSArray *) encryptData
+                  verifyCode: (NSString *)verifyCode
+                  resolver: (RCTPromiseResolveBlock) resolver
+                  rejector: (RCTPromiseRejectBlock) rejector)
+{
+    NSLog(@"encryptData %@", encryptData);
+    NSLog(@"verifyCode %@", verifyCode);
+    resolver(@[]);
+}
+
 @end

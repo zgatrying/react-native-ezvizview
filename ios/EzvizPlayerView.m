@@ -6,7 +6,10 @@
 //
 #import <UIKit/UIKit.h>
 #import <EZOpenSDKFramework/EZPlayer.h>
+#import <EZOpenSDKFramework/EZOpenSDK.h>
 #import "EzvizviewHeaders/EzvizPlayerView.h"
+
+#define EZOPENSDK [EZOpenSDK class]
 
 @implementation EzvizPlayerView {
     NSString *_deviceSerial;

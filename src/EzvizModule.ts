@@ -62,7 +62,7 @@ export function openLoginPage() {
 
 export async function decryptUrl(encryptUrl: string, verifyCode: string) {
   let urlObj = qs.parse(encryptUrl);
-  if (urlObj.isEncrypted && urlObj.isEncrypted == '1') {
+  if (urlObj.isEncrypted && urlObj.isEncrypted === '1') {
     let response = await axios.get(encryptUrl, {
       responseType: 'arraybuffer',
     });
