@@ -7,7 +7,7 @@
 #import <React/RCTViewManager.h>
 #import "EzvizPlayerView.h"
 
-@interface EzvizviewViewManager : RCTViewManager
+@interface EzvizPlayerViewManager : RCTViewManager
 
 @property (nonatomic, strong) EzvizPlayerView *playerView;
 

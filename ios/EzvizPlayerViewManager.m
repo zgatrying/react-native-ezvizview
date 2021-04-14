@@ -1,9 +1,9 @@
 #import <React/RCTBridgeModule.h>
 #import <EZOpenSDKFramework/EZPlayer.h>
-#import "EzvizviewHeaders/EzvizviewViewManager.h"
+#import "EzvizviewHeaders/EzvizPlayerViewManager.h"
 #import "EzvizviewHeaders/EzvizPlayerView.h"
 
-@implementation EzvizviewViewManager
+@implementation EzvizPlayerViewManager
 
 @synthesize playerView;
 
