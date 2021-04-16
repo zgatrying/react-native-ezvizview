@@ -14,12 +14,13 @@
 
 - (void)createPlayer;
 - (void)releasePlayer;
-- (void)startRealPlay;
+- (void)resumePlay;
+- (void)rePlay;
 - (void)pause;
 
-@property (nonatomic, copy) RCTBubblingEventBlock onLoad;
-@property (nonatomic, copy) RCTBubblingEventBlock onPlaySuccess;
-@property (nonatomic, copy) RCTBubblingEventBlock onPlayFailed;
+@property (nonatomic, copy) RCTDirectEventBlock onLoad;
+@property (nonatomic, copy) RCTDirectEventBlock onPlaySuccess;
+@property (nonatomic, copy) RCTDirectEventBlock onPlayFailed;
 
 - (void)setDeviceSerial:(NSString *) deviceSerial;
 - (void)setCameraNo:(NSInteger) cameraNo;

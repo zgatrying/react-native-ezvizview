@@ -8,6 +8,7 @@
 #import <UIKit/UIKit.h>
 #import <EZOpenSDKFramework/EZPlayer.h>
 #import <EZOpenSDKFramework/EZOpenSDK.h>
+#import <EZOpenSDKFramework/EZDeviceRecordFile.h>
 #import "EzvizviewHeaders/EzvizPlaybackView.h"
 
 #define EZOPENSDK [EZOpenSDK class]
@@ -16,9 +17,10 @@
     NSString *_deviceSerial;
     NSInteger _cameraNo;
     NSString *_verifyCode;
-    NSString *_startTime;
-    NSString *_endTime;
+    NSDate *_startTime;
+    NSDate *_endTime;
     EZPlayer *_player;
+    EZDeviceRecordFile *_deviceRecord;
     BOOL _isPlaying;
     BOOL _isOpenSound;
     BOOL _loaded;
@@ -34,7 +36,10 @@
 {
     [super layoutSubviews];
     if(!_loaded) {
-        NSLog(@"load subviews");
+        NSLog(@"init");
+        _deviceRecord = [[EZDeviceRecordFile alloc] init];
+        [_deviceRecord setStartTime:_startTime];
+        [_deviceRecord setStopTime:_endTime];
         self.onLoad(@{});
     }
     _loaded = true;
@@ -56,13 +61,25 @@
 }
 
 - (void)setStartTime:(NSString *)startTime {
-    _startTime = startTime;
-    NSLog(@"EzvizPlayerView set startTime %@", startTime);
+//    _startTime = startTime;
+    NSTimeZone * GTMZone = [NSTimeZone localTimeZone];
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    dateFormatter.dateFormat = @"yyyy-MM-dd HH:mm:ss";
+    [dateFormatter setTimeZone:GTMZone];
+    
+    _startTime = [dateFormatter dateFromString:startTime];
+    NSLog(@"EzvizPlayerView set startTime %@ from %@", _startTime, startTime);
 }
 
 - (void)setEndTime:(NSString *)endTime {
-    _endTime = endTime;
-    NSLog(@"EzvizPlayerView set endTime %@", endTime);
+//    _endTime = endTime;
+    NSTimeZone * GTMZone = [NSTimeZone localTimeZone];
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    dateFormatter.dateFormat = @"yyyy-MM-dd HH:mm:ss";
+    [dateFormatter setTimeZone:GTMZone];
+    
+    _endTime = [dateFormatter dateFromString:endTime];
+    NSLog(@"EzvizPlayerView set endTime %@ from %@", _endTime, endTime);
 }
 
 #pragma mark - used by JS
@@ -76,7 +93,7 @@
         _isOpenSound = YES;
         [_player setPlayVerifyCode:_verifyCode];
         [_player setPlayerView:self];
-        [_player startRealPlay];
+        [_player startPlaybackFromDevice:_deviceRecord];
         NSLog(@"%@ start play 序列号：%@-通道号：%ld", self.class, _deviceSerial, (long)_cameraNo);
     }
 }
@@ -87,12 +104,22 @@
     [EZOPENSDK releasePlayer:_player];
 }
 
-- (void)startRealPlay
+- (void)rePlay
+{
+    NSLog(@"%@ rePlay", self.class);
+    if(_isPlaying) {
+        [_player stopPlayback];
+    }
+    _isPlaying = YES;
+    [_player startPlaybackFromDevice:_deviceRecord];
+}
+
+- (void)resumePlay
 {
     if(!_isPlaying)
     {
         NSLog(@"%@ start play", self.class);
-        [_player startRealPlay];
+        [_player resumePlayback];
     }
 }
 
@@ -101,7 +128,7 @@
     if(_isPlaying)
     {
         NSLog(@"%@ stop play", self.class);
-        [_player stopRealPlay];
+        [_player pausePlayback];
         _isPlaying = !_isPlaying;
     }
 }
@@ -123,7 +150,7 @@
     {
         if([player isEqual:_player])
         {
-            [_player stopRealPlay];
+            [_player stopPlayback];
         }
     }
     //提示JS播放失败
@@ -133,18 +160,13 @@
 - (void)player:(EZPlayer *)player didReceivedMessage:(NSInteger)messageCode
 {
     NSLog(@"player: %@, didReceivedMessage: %d", player, (int)messageCode);
-    if (messageCode == PLAYER_REALPLAY_START) {
+    if (messageCode == PLAYER_PLAYBACK_START) {
         _isPlaying = YES;
         self.onPlaySuccess(@{});
         if(!_isOpenSound)
         {
             [_player closeSound];
         }
-    }
-    else if (messageCode == PLAYER_NET_CHANGED)
-    {
-        [_player stopRealPlay];
-        [_player startRealPlay];
     }
 }
 

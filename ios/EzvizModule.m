@@ -59,9 +59,18 @@ RCT_EXPORT_METHOD(decryptData: (NSArray *) encryptData
                   resolver: (RCTPromiseResolveBlock) resolver
                   rejector: (RCTPromiseRejectBlock) rejector)
 {
-    NSLog(@"encryptData %@", encryptData);
-    NSLog(@"verifyCode %@", verifyCode);
-    resolver(@[]);
+    NSMutableData *mutableData = [[NSMutableData alloc] initWithCapacity:[encryptData count]];
+    for (NSNumber *number in encryptData) {
+        char byte = [number charValue];
+        [mutableData appendBytes:&byte length:1];
+    }
+    NSData *decryptedData = [EZOPENSDK decryptData:mutableData verifyCode:verifyCode];
+    if(decryptedData) {
+        NSString *base64Url = [decryptedData base64EncodedStringWithOptions:NSDataBase64EncodingEndLineWithLineFeed];
+        resolver(@[base64Url]);
+    } else {
+        rejector(@"get decryptedData nil", @"retuen error", nil);
+    }
 }
 
 @end

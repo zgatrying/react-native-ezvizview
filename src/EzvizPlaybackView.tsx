@@ -42,7 +42,6 @@ export default class EzvizPlaybackView extends Component<
   _setRoot = (node) => {
     if (node) {
       this._rctRzvizView = node;
-      this.createPlaer();
     }
   };
 
@@ -196,6 +195,7 @@ export default class EzvizPlaybackView extends Component<
           onPlaySuccess={this._onPlaySuccess}
           onPlayFailed={this._onPlayFailed}
           onCompletion={this._onCompletion}
+          onLoad={() => this.startPlayer()}
         />
         {isLoading && this.renderWithMask(<Loading />)}
         <PlayControl

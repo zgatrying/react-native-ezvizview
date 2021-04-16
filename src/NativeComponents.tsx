@@ -26,6 +26,7 @@ export type RCTEzvizPlaybackViewProps = {
   onPlaySuccess: () => void;
   onPlayFailed: (event: NativeSyntheticEvent<onPlayFailedEvent>) => void;
   onCompletion: () => void;
+  onLoad: () => void;
 };
 
 /*global globalThis*/

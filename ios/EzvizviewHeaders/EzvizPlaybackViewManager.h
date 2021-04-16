@@ -14,6 +14,7 @@
 
 -(void) pause:(nonnull NSNumber *)reactTag;
 -(void) replay:(nonnull NSNumber *)reactTag;
+-(void) resumePlay:(nonnull NSNumber *)reactTag;
 -(void) createPlayer:(nonnull NSNumber *)reactTag;
 -(void) releasePlayer:(nonnull NSNumber *)reactTag;
 

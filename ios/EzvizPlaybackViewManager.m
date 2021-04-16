@@ -32,6 +32,9 @@ RCT_EXPORT_VIEW_PROPERTY(cameraNo, NSInteger);
 RCT_EXPORT_VIEW_PROPERTY(verifyCode, NSString);
 RCT_EXPORT_VIEW_PROPERTY(startTime, NSString);
 RCT_EXPORT_VIEW_PROPERTY(endTime, NSString);
+RCT_EXPORT_VIEW_PROPERTY(onLoad, RCTDirectEventBlock)
+RCT_EXPORT_VIEW_PROPERTY(onPlaySuccess, RCTDirectEventBlock)
+RCT_EXPORT_VIEW_PROPERTY(onPlayFailed, RCTDirectEventBlock)
 
 - (UIView *)view
 {
@@ -51,8 +54,15 @@ RCT_EXPORT_METHOD(replay: (nonnull NSNumber *) reactTag)
 {
     RCTLog(@"native replay");
     dispatch_async(dispatch_get_main_queue(), ^{
-        [self.playerView pause];
-        [self.playerView startRealPlay];
+        [self.playerView rePlay];
+    });
+}
+
+RCT_EXPORT_METHOD(resume: (nonnull NSNumber *) reactTag)
+{
+    RCTLog(@"native replay");
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.playerView resumePlay];
     });
 }
 
@@ -71,9 +81,5 @@ RCT_EXPORT_METHOD(releasePlayer: (nonnull NSNumber *) reactTag)
         [self.playerView releasePlayer];
     });
 }
-
-RCT_EXPORT_VIEW_PROPERTY(onLoad, RCTDirectEventBlock)
-RCT_EXPORT_VIEW_PROPERTY(onPlaySuccess, RCTDirectEventBlock)
-RCT_EXPORT_VIEW_PROPERTY(onPlayFailed, RCTDirectEventBlock)
 
 @end
