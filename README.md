@@ -5,9 +5,9 @@
 ## 效果预览
 
 <div >
-  <image src='./screenshot/realplay.jpeg' style='width: 375px; height: 667px;'>
-  <image src='./screenshot/alarmList.jpeg' style='width: 375px; height: 667px;'>
-  <image src='./screenshot/playback.jpeg' style='width: 375px; height: 667px;'>
+  <image src='./screenshot/realplay.jpeg' style='width: 200px; height: 400px;'>
+  <image src='./screenshot/alarmList.jpeg' style='width: 200px; height: 400px;'>
+  <image src='./screenshot/playback.jpeg' style='width: 200px; height: 400px;'>
 </div>
 
 **Android 端：**
@@ -23,10 +23,22 @@
 - [x] 实现告警录像回放的播放、暂停、重新播放（回放类型：远程 SD 卡）
 - [ ] 实现告警录像回放（回放类型：云存储）
 - [ ] 实现告警录像回放的播放、暂停、重新播放（回放类型：云存储）
+- [ ] 回放录像可调节播放进度
 
 **iOS 端**
 
-- [ ] 实现与 Android 端相同的功能与组件
+- [x] 实现 EzvizView 原生组件，用于查看实时画面
+- [x] 实现 EzvizPlaybackView 原生组件，用于回放录像
+- [x] 从 SDK 提供的 H5 登录中间页获取 accessToken
+- [x] 实现实时预览功能
+- [x] 实现云台控制功能
+- [x] 实现布撤防功能
+- [x] 解密指定设备上的加密过的告警消息图片 url
+- [x] 实现告警录像回放（回放类型：远程 SD 卡）
+- [x] 实现告警录像回放的播放、暂停、重新播放（回放类型：远程 SD 卡）
+- [ ] 实现告警录像回放（回放类型：云存储）
+- [ ] 实现告警录像回放的播放、暂停、重新播放（回放类型：云存储）
+- [ ] 回放录像可调节播放进度
 
 ## Installation
 
@@ -78,6 +90,25 @@ dependencies {
         }
     }
 ```
+
+在`android/app/src/.../MainApplication.java`中初始化sdk：
+
+```java
+public class MainApplication extends Application implements ReactApplication {
+    @Override
+  public void onCreate() {
+    super.onCreate();
+
+    EZOpenSDK.showSDKLog(true);
+    EZOpenSDK.initSDK(this, "appkey");
+
+    SoLoader.init(this, /* native exopackage */ false);
+    initializeFlipper(this, getReactNativeHost().getReactInstanceManager()); // Remove this line if you don't want Flipper enabled
+  }
+}
+```
+
+并且确保 android/app/build.gradle 文件中的 applicationId 与萤石开放平台申请的 bundleId 一致。
 
 最后需要配置`proguard-rules.pro`文件：
 
@@ -166,44 +197,61 @@ dependencies {
 
 </details>
 
+## iOS installation
+
+<details>
+  <summary>
+    iOS Details
+  </summary>
+  
+  在ios目录下执行
+
+  ```
+  pod install
+  ```
+
+  然后向`AppDelegate.m`中添加以下内容：
+  ```swift
+  #import <EZOpenSDKFramework/EZOpenSDK.h>
+  #import <EZOpenSDKFramework/EZHCNetDeviceSDK.h>
+  #define EZOPENSDK [EZOpenSDK class]
+
+
+  @implementation AppDelegate
+
+  - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
+  {
+    //...
+    
+    //  init ezviz sdk
+    [EZOPENSDK setDebugLogEnable:YES];
+    [EZOPENSDK initLibWithAppKey: @"your appKey"];
+    [EZHCNetDeviceSDK initSDK];
+    NSLog(@"EZOpenSDK Version = %@", [EZOPENSDK getVersion]);
+
+    //...
+  }
+  @end
+  ```
+</details>
+
 ## Usage
 
 ```js
 import Ezvizview, { initSDK, openLoginPage } from 'react-native-ezvizview';
 ```
 
-**第一步：在 MainApplication 中初始化 sdk**
-
-android/app/src/.../MainApplication.java
-
-```java
-public class MainApplication extends Application implements ReactApplication {
-    @Override
-  public void onCreate() {
-    super.onCreate();
-
-    EZOpenSDK.showSDKLog(true);
-    EZOpenSDK.initSDK(this, "appkey");
-
-    SoLoader.init(this, /* native exopackage */ false);
-    initializeFlipper(this, getReactNativeHost().getReactInstanceManager()); // Remove this line if you don't want Flipper enabled
-  }
-}
-```
-
-并且确保 android/app/build.gradle 文件中的 applicationId 与萤石开放平台申请的 bundleId 一致。
-
-**第二步：获取 accessToken（如果是从服务器获取的 accessToken，那就直接进入下一步。）**
+**第一步：获取 accessToken（如果是从服务器获取的 accessToken，那就直接进入下一步。）**
 
 ```js
 openLoginPage();
 ```
 
-**第三步：获取播放监控实时画面必要的信息：设备序列号、通道号、设备验证码；**
+**第二步：获取播放监控实时画面必要的信息：设备序列号、通道号、设备验证码；**
 
 ...
 
-**第四步：展示 EzvizView 组件或 EzvizPlaybackView 组件；**
+**第三步：展示 EzvizView 组件或 EzvizPlaybackView 组件；**
 
 ```js
 //实时预览
@@ -260,8 +308,8 @@ Prop | 描述
 |方法名 | 描述 |
 | --- | --- |
 |getEzAccessToken| 获取EZOpenSdk缓存的AccessToken |
-|initSDK| 初始化sdk，暂不使用，目前还在MainApplication.java中初始化sdk |
-|decryptUrl| 解密告警消息图片url |
+|initSDK| 初始化sdk，暂不使用，目前还在MainApplication.java与AppDelegate.m中初始化sdk |
+|decryptUrl| 解密告警消息图片url返回base64字符串 |
 
 ## 参考
 

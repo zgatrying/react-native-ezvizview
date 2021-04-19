@@ -18,8 +18,8 @@ type Props = {
 
 export default function WelcomeScreen({ navigation }: Props) {
   const [accessToken, setAccessToken] = useState('');
-  const [deviceSerial, setDeviceSerial] = useState('C23525387');
-  const [verifyCode, setVerifyCode] = useState('ZSRKBA');
+  const [deviceSerial, setDeviceSerial] = useState('');
+  const [verifyCode, setVerifyCode] = useState('');
   const [cameraNo, setCameraNo] = useState<number>(1);
   useFocusEffect(
     React.useCallback(() => {
@@ -32,7 +32,7 @@ export default function WelcomeScreen({ navigation }: Props) {
   );
   return (
     <View>
-      {accessToken == '' ? (
+      {accessToken === '' ? (
         <View>
           <Button
             title="打开h5登录页"
