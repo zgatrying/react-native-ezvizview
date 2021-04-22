@@ -55,7 +55,7 @@ static void InitializeFlipper(UIApplication *application) {
   
 //  init ezviz sdk
   [EZOPENSDK setDebugLogEnable:YES];
-  [EZOPENSDK initLibWithAppKey: @"a74a7554f19b42ca9646b84cfad7b9ab"];
+  [EZOPENSDK initLibWithAppKey: @"your appKey"];
   [EZHCNetDeviceSDK initSDK];
   NSLog(@"EZOpenSDK Version = %@", [EZOPENSDK getVersion]);
   
