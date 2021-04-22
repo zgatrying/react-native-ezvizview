@@ -14,7 +14,6 @@
 
 - [x] 实现 EzvizView 原生组件，用于查看实时画面
 - [x] 实现 EzvizPlaybackView 原生组件，用于回放录像
-- [x] 从 SDK 提供的 H5 登录中间页获取 accessToken
 - [x] 实现实时预览功能
 - [x] 实现云台控制功能
 - [x] 实现布撤防功能
@@ -29,7 +28,6 @@
 
 - [x] 实现 EzvizView 原生组件，用于查看实时画面
 - [x] 实现 EzvizPlaybackView 原生组件，用于回放录像
-- [x] 从 SDK 提供的 H5 登录中间页获取 accessToken
 - [x] 实现实时预览功能
 - [x] 实现云台控制功能
 - [x] 实现布撤防功能
@@ -58,21 +56,6 @@ npm install --save react-native-ezvizview
   <uses-permission android:name="android.permission.INTERNET" />
   <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
   <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
-
-  <!--用到H5登录页的还需要添加下面的activity -->
-  <activity
-    android:name="com.videogo.main.EzvizWebViewActivity"
-    android:screenOrientation="portrait"
-    android:configChanges="orientation|keyboardHidden">
-  </activity>
-```
-
-使用 H5 登录页，还需要配置`build.gradle`：
-
-```
-dependencies {
-  api 'com.hikvision.ezviz:ezviz-sdk:5.0.0'
-}
 ```
 
 然后配置`app/build.gradle`：
@@ -241,15 +224,9 @@ public class MainApplication extends Application implements ReactApplication {
 import Ezvizview, { initSDK, openLoginPage } from 'react-native-ezvizview';
 ```
 
-**第一步：获取 accessToken（如果是从服务器获取的 accessToken，那就直接进入下一步。）**
-
-```js
-openLoginPage();
-```
+**第一步：获取并设置accessToken：从自建的服务器获取AccessToken，并调用sdk的setAccessToken方法设置AccessToken；**
 
 **第二步：获取播放监控实时画面必要的信息：设备序列号、通道号、设备验证码；**
-
-...
 
 **第三步：展示 EzvizView 组件或 EzvizPlaybackView 组件；**
 
@@ -307,8 +284,6 @@ Prop | 描述
 
 |方法名 | 描述 |
 | --- | --- |
-|getEzAccessToken| 获取EZOpenSdk缓存的AccessToken |
-|initSDK| 初始化sdk，暂不使用，目前还在MainApplication.java与AppDelegate.m中初始化sdk |
 |decryptUrl| 解密告警消息图片url返回base64字符串 |
 
 ## 参考

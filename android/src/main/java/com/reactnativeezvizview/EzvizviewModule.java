@@ -40,43 +40,6 @@ public class EzvizviewModule extends ReactContextBaseJavaModule {
   }
 
   @ReactMethod
-  public void initSDK(boolean debug, String appKey, Promise promise) {
-    EZOpenSDK.clearStreamInfoCache();
-    EZOpenSDK.showSDKLog(debug);
-    EZOpenSDK.initSDK(reactContext, appKey);
-    promise.resolve(null);
-  }
-
-  @ReactMethod
-  public void getAccessToken(
-    Promise promise) {
-    WritableMap resultData = new WritableNativeMap();
-    EZAccessToken ezAccessToken = EZOpenSDK.getEZAccessToken();
-    if(ezAccessToken != null) {
-      String accessToken = ezAccessToken.getAccessToken();
-      long expire = ezAccessToken.getExpire();
-      resultData.putString("accessToken", accessToken);
-      resultData.putDouble("expire", expire);
-      promise.resolve(resultData);
-    } else {
-      Exception e = new Exception("accessToken为null");
-      promise.reject(E_ACCESSTOKEN_ERROR, e);
-    }
-  }
-
-  @ReactMethod
-  public void openLoginPage() {
-    if(!EZOpenSDK.isLogin()) {
-      EZOpenSDK.openLoginPage();
-    }
-  }
-
-  @ReactMethod
-  public void setPlayerPause(int ReactTag, String commandId, @Nullable ReadableArray args) {
-
-  }
-
-  @ReactMethod
   public void decryptData(
     ReadableArray encryptData,
     String verifyCode,
@@ -95,29 +58,4 @@ public class EzvizviewModule extends ReactContextBaseJavaModule {
       promise.reject(new Exception("解密失败，请确认url是否为加密过的告警图片"));
     }
   }
-
-//  @ReactMethod
-//  public void searchRecordFileFromDevice(
-//    String deviceSerial,
-//    int cameraNo,
-//    String startTime,
-//    String endTime,
-//    Promise promise
-//  ) {
-//    Calendar mStartTime = EZOpenUtils.parseTimeToCalendar(startTime);
-//    Calendar mEndTime = EZOpenUtils.parseTimeToCalendar(endTime);
-//    new Thread(new Runnable() {
-//      @Override
-//      public void run() {
-//        try {
-//          List<EZCloudRecordFile> list = EZOpenSDK.searchRecordFileFromCloud(deviceSerial, cameraNo, mStartTime, mEndTime);
-//          if(list != null && list.size() > 0) {
-//
-//          }
-//        } catch (BaseException e) {
-//          promise.reject(e);
-//        }
-//      }
-//    });
-//  }
 }

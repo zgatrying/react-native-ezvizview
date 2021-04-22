@@ -19,41 +19,6 @@
 
 RCT_EXPORT_MODULE();
 
-RCT_EXPORT_METHOD(initSDK: (BOOL) debug
-                  appKey:(NSString *) appKey
-                  resolver: (RCTPromiseResolveBlock) resolver
-                  rejector: (RCTPromiseRejectBlock) rejector)
-{
-    [EZOPENSDK setDebugLogEnable:debug];
-    [EZOPENSDK initLibWithAppKey:appKey];
-    resolver(@[]);
-}
-
-RCT_EXPORT_METHOD(getAccessToken: (RCTPromiseResolveBlock)resolve
-                  rejecter: (RCTPromiseRejectBlock)reject)
-{
-    NSString *accessToken = [EZOPENSDK getAccesstoken];
-    NSMutableDictionary *result = [[NSMutableDictionary alloc] init];
-    if(accessToken != nil) {
-        [result setObject:accessToken forKey:@"accessToken"];
-        resolve(result);
-    } else {
-        reject(@"get accessToken fail", @"retuen nothing", nil);
-    }
-}
-
-RCT_EXPORT_METHOD(openLoginPage)
-{
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [EZOpenSDK openLoginPage:^(EZAccessToken *accessToken) {
-            if (accessToken != nil) {
-                RCTLog(@"get accessToken success");
-                [EZOPENSDK setAccessToken:accessToken.accessToken];
-            }
-        }];
-    });
-}
-
 RCT_EXPORT_METHOD(decryptData: (NSArray *) encryptData
                   verifyCode: (NSString *)verifyCode
                   resolver: (RCTPromiseResolveBlock) resolver
