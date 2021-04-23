@@ -47,7 +47,7 @@ public class EzPlaybackView extends EZUIPlayerView implements SurfaceHolder.Call
   public enum Events {
     EVENT_PLAY_SUCCESS("onPlaySuccess"),
     EVENT_PLAY_FAILED("onPlayFailed"),
-    EVENT_COMPLETION("onCompletion");
+    EVENT_COMPLETION("onCompletion"),
     EVENT_LOAD("onLoad");
 
     private final String mName;

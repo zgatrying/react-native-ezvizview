@@ -172,7 +172,10 @@ export default class EzvizView extends Component<
           verifyCode={verifyCode}
           onPlaySuccess={this._onPlaySuccess}
           onPlayFailed={this._onPlayFailed}
-          onLoad={() => this.startPlayer()}
+          onLoad={() => {
+            console.log('onLoad');
+            this.startPlayer();
+          }}
         />
         {isLoading && this.renderWithMask(<Loading />)}
         <PlayControl

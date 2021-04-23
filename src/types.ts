@@ -6,12 +6,6 @@
 import type { NativeSyntheticEvent, ViewStyle } from 'react-native';
 import type { ErrorCode } from './constant';
 
-export type EzvizInfo = {
-  hasInit: boolean;
-  accessToken: string;
-  expire?: number;
-};
-
 export type EzvizviewProps = {
   style?: ViewStyle;
   deviceSerial: string;
@@ -60,9 +54,4 @@ export type onPlayFailedNativeEvent = NativeSyntheticEvent<onPlayFailedEvent>;
 
 export type onPlayFailedEvent = {
   errorCode: ErrorCode;
-};
-
-export type EzAccessTokenRes = {
-  accessToken: string;
-  expire?: number;
 };

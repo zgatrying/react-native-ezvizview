@@ -111,4 +111,11 @@ public final class EzvizViewManager extends ViewGroupManager<Ezview> {
   public void setVerifyCode(Ezview view, String verifyCode) {
     view.setVerifyCode(verifyCode);
   }
+
+  @Override
+  protected void onAfterUpdateTransaction(@NonNull Ezview view) {
+    super.onAfterUpdateTransaction(view);
+    view.emitEventToJS(Events.EVENT_LOAD.toString(), null);
+    Log.d(TAG, "onAfterUpdateTransaction: ");
+  }
 }

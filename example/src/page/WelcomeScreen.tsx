@@ -1,9 +1,9 @@
-import { useFocusEffect } from '@react-navigation/core';
 import type { StackNavigationProp } from '@react-navigation/stack';
 import React, { useState } from 'react';
 import { Button, Text, View } from 'react-native';
-import { getEzAccessToken, openLoginPage } from 'react-native-ezvizview';
+import { setEzAccessToken } from 'react-native-ezvizview';
 import { TextInput } from 'react-native-gesture-handler';
+import { getAccessToken } from '../api';
 import type { RootStackParamList } from '../App';
 import Divider from '../components/Divider';
 
@@ -18,31 +18,26 @@ type Props = {
 
 export default function WelcomeScreen({ navigation }: Props) {
   const [accessToken, setAccessToken] = useState('');
-  const [deviceSerial, setDeviceSerial] = useState('');
-  const [verifyCode, setVerifyCode] = useState('');
+  const [deviceSerial, setDeviceSerial] = useState('E77548068');
+  const [verifyCode, setVerifyCode] = useState('YWHPSR');
   const [cameraNo, setCameraNo] = useState<number>(1);
-  useFocusEffect(
-    React.useCallback(() => {
-      getEzAccessToken().then((res) => {
-        console.log(res);
-        setAccessToken(res.accessToken);
-      });
-      return () => {};
-    }, [])
-  );
   return (
     <View>
       {accessToken === '' ? (
         <View>
           <Button
-            title="打开h5登录页"
-            onPress={() => {
-              openLoginPage();
+            title="获取AccessToken"
+            onPress={async () => {
+              //获取AccessToken并设置AccessToken
+              const res = await getAccessToken();
+              if (res.data && res.data.data && res.data.data.accessToken) {
+                console.log(res.data);
+                const token = res.data.data.accessToken;
+                setAccessToken(token);
+                setEzAccessToken(token);
+              }
             }}
           />
-          <Text>
-            问题说明：从h5登录页返回时，不会刷新该页面，需要重新载入一遍app
-          </Text>
         </View>
       ) : (
         <View>
@@ -115,8 +110,6 @@ export default function WelcomeScreen({ navigation }: Props) {
                   cameraNo,
                   verifyCode,
                 });
-              } else {
-                openLoginPage();
               }
             }}
           />

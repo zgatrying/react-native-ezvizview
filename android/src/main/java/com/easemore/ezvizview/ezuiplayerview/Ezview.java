@@ -46,7 +46,7 @@ public class Ezview extends EZUIPlayerView implements SurfaceHolder.Callback {
 
   public enum Events {
     EVENT_PLAY_SUCCESS("onPlaySuccess"),
-    EVENT_PLAY_FAILED("onPlayFailed");
+    EVENT_PLAY_FAILED("onPlayFailed"),
     EVENT_LOAD("onLoad");
 
     private final String mName;
@@ -102,7 +102,6 @@ public class Ezview extends EZUIPlayerView implements SurfaceHolder.Callback {
         mContext = context;
         mEZUIPlayerView = this;
         mActivity = activity;
-        emitEventToJS(Events.EVENT_LOAD.toString(), null);
         Log.d(TAG, "Ezview: onCreated");
     }
 
@@ -152,7 +151,7 @@ public class Ezview extends EZUIPlayerView implements SurfaceHolder.Callback {
         });
     }
 
-    private void emitEventToJS(String eventName, @Nullable WritableMap event) {
+    public void emitEventToJS(String eventName, @Nullable WritableMap event) {
       mContext.getJSModule(RCTEventEmitter.class).receiveEvent(
         getId(),
         eventName,

@@ -40,6 +40,11 @@ public class EzvizviewModule extends ReactContextBaseJavaModule {
   }
 
   @ReactMethod
+  public void setAccessToken(String accessToken) {
+    EZOpenSDK.setAccessToken(accessToken);
+  }
+
+  @ReactMethod
   public void decryptData(
     ReadableArray encryptData,
     String verifyCode,

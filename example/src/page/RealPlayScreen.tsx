@@ -28,6 +28,7 @@ export default function RealyPlayScreen({ route }: Props) {
   const [direction, setDirection] = useState<PTZ_POZITION | '停'>('停');
   const routeParams = route.params;
   const { accessToken, deviceSerial, verifyCode, cameraNo } = routeParams;
+  console.log(accessToken, deviceSerial, verifyCode, cameraNo);
   return (
     <ScrollView
       style={{
