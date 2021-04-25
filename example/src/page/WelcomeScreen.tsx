@@ -18,8 +18,8 @@ type Props = {
 
 export default function WelcomeScreen({ navigation }: Props) {
   const [accessToken, setAccessToken] = useState('');
-  const [deviceSerial, setDeviceSerial] = useState('E77548068');
-  const [verifyCode, setVerifyCode] = useState('YWHPSR');
+  const [deviceSerial, setDeviceSerial] = useState('');
+  const [verifyCode, setVerifyCode] = useState('');
   const [cameraNo, setCameraNo] = useState<number>(1);
   return (
     <View>
