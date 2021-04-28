@@ -130,8 +130,8 @@ public class EZOpenUtils {
     }
 
     public static void gotoLogin(){
-        EZOpenSDK.clearStreamInfoCache();
-        EZOpenSDK.openLoginPage(Intent.FLAG_ACTIVITY_CLEAR_TASK| Intent.FLAG_ACTIVITY_NEW_TASK);
+        EZOpenSDK.getInstance().clearStreamInfoCache();
+        EZOpenSDK.getInstance().openLoginPage(Intent.FLAG_ACTIVITY_CLEAR_TASK| Intent.FLAG_ACTIVITY_NEW_TASK);
     }
 
     /**

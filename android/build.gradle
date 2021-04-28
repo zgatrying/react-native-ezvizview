@@ -127,5 +127,7 @@ dependencies {
   // noinspection GradleDynamicVersion
   api 'com.facebook.react:react-native:+'
   implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-  implementation 'com.hikvision.ezviz:ezviz-sdk:5.0.0'
+  /*萤石SDK核心模块，必须依赖*/
+  implementation 'com.ezviz.sdk:ezviz-sdk:4.16.1'
+  implementation 'com.google.code.gson:gson:2.7'
 }

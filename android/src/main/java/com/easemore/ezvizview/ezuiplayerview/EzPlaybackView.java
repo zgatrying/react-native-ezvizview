@@ -1,10 +1,14 @@
 package com.easemore.ezvizview.ezuiplayerview;
 
+import android.app.Activity;
+import android.os.Handler;
+import android.os.Message;
 import android.os.SystemClock;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.SurfaceHolder;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.easemore.ezvizview.ezuiplayerview.utils.EZOpenUtils;
@@ -14,15 +18,17 @@ import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.bridge.WritableNativeMap;
 import com.facebook.react.uimanager.ThemedReactContext;
 import com.facebook.react.uimanager.events.RCTEventEmitter;
+import com.videogo.errorlayer.ErrorInfo;
 import com.videogo.exception.BaseException;
 import com.videogo.exception.ErrorCode;
+import com.videogo.openapi.EZConstants;
+import com.videogo.openapi.EZOpenSDK;
 import com.videogo.openapi.EZPlayer;
-import com.videogo.openapi.OnEZPlayerCallBack;
 
 import java.util.Calendar;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-public class EzPlaybackView extends EZUIPlayerView implements SurfaceHolder.Callback {
+public class EzPlaybackView extends EZUIPlayerView implements SurfaceHolder.Callback, Handler.Callback {
 
     private static final String TAG = "EZOpenSDKPlaybackView";
 
@@ -43,6 +49,29 @@ public class EzPlaybackView extends EZUIPlayerView implements SurfaceHolder.Call
     private EZUIPlayerView mEZUIPlayerView;
     private EZPlayer mEZPlayer;
     private ThemedReactContext mContext;
+    private Activity mActivity;
+    private Handler mHandler = null;
+
+    @Override
+    public boolean handleMessage(@NonNull Message msg) {
+      if(mActivity.isFinishing()) {
+        return false;
+      }
+      Log.d(TAG, "handleMessage: " + msg.what);
+      switch (msg.what) {
+        case EZConstants.EZRealPlayConstants.MSG_REALPLAY_PLAY_SUCCESS:
+          emitEventToJS(Events.EVENT_PLAY_SUCCESS.toString(), null);
+          setPlaySound();
+          break;
+        case EZConstants.EZRealPlayConstants.MSG_REALPLAY_PLAY_FAIL:
+          emitEventToJS(Events.EVENT_PLAY_FAILED.toString(), null);
+          handleRealPlayFail(msg.obj);
+          break;
+        default:
+          break;
+      }
+      return false;
+    }
 
   public enum Events {
     EVENT_PLAY_SUCCESS("onPlaySuccess"),
@@ -114,62 +143,27 @@ public class EzPlaybackView extends EZUIPlayerView implements SurfaceHolder.Call
      */
     private AtomicBoolean isInitSurface = new AtomicBoolean(false);
 
-    public EzPlaybackView(ThemedReactContext context) {
+    public EzPlaybackView(ThemedReactContext context, Activity activity) {
         super(context);
         mContext = context;
+        mActivity = activity;
         mEZUIPlayerView = this;
+        mHandler = new Handler(this);
         emitEventToJS(Events.EVENT_LOAD.toString(), null);
     }
 
     public void createPlayer() {
-        mEZUIPlayerView.setSurfaceHolderCallback(this);
+       mEZUIPlayerView.setSurfaceHolderCallback(this);
         if(TextUtils.isEmpty(mDeviceSerial) || mCameraNo == -1) {
             Log.d(TAG, "mDeviceSerial or cameraNo is null");
             return;
         }
-        mEZPlayer = EZPlayer.createPlayer(mDeviceSerial, mCameraNo);
-        mEZPlayer.setOnEZPlayerCallBack(new OnEZPlayerCallBack() {
-            @Override
-            public void onPlaySuccess() {
-                Log.d(TAG, "onPlaySuccess");
-                if(mStatus != STATUS_STOP) {
-                    mStatus = STATUS_PLAY;
-                    setPlaySound();
-                    emitEventToJS(Events.EVENT_PLAY_SUCCESS.toString(), null);
-                }
-            }
-
-            @Override
-            public void onPlayFailed(BaseException e) {
-                Log.d(TAG, "onPlayFailed");
-                if(mStatus != STATUS_STOP) {
-                    mStatus = STATUS_STOP;
-                    stopPlayback();
-                    handleRealPlayFail(e.getErrorCode());
-                    WritableMap event = new WritableNativeMap();
-                    event.putInt("errorCode", e.getErrorCode());
-                    emitEventToJS(Events.EVENT_PLAY_FAILED.toString(), event);
-                }
-            }
-
-            @Override
-            public void onVideoSizeChange(int i, int i1) {
-                Log.d(TAG, "onVideoSizeChange");
-                int mVideoWidth = i;
-                int mVideoHeight = i1;
-                Log.d(TAG, "video width = " + mVideoWidth + "   height = " + mVideoHeight);
-            }
-
-            @Override
-            public void onCompletion() {
-                Log.d(TAG, "onCompletion");
-                if(mStatus != STATUS_STOP) {
-                  mStatus = STATUS_STOP;
-                  stopPlayback();
-                  emitEventToJS(Events.EVENT_COMPLETION.toString(), null);
-                }
-            }
-        });
+        mEZPlayer = EZOpenSDK.getInstance().createPlayer(mDeviceSerial, mCameraNo);
+        if(mEZPlayer == null) {
+          return;
+        }
+        mEZPlayer.setHandler(mHandler);
+        beforeStartPlayback();
     }
 
     private void emitEventToJS(String eventName, @Nullable WritableMap event) {
@@ -180,9 +174,13 @@ public class EzPlaybackView extends EZUIPlayerView implements SurfaceHolder.Call
       );
     }
 
-    private void handleRealPlayFail(int errorCode) {
+    private void handleRealPlayFail(Object obj) {
+        int errorCode = 0;
+        if(obj != null) {
+          ErrorInfo errorInfo = (ErrorInfo) obj;
+          errorCode = errorInfo.errorCode;
+        }
         String txt = null;
-        Log.i(TAG, "handleRealPlayFail: errorCode:" + errorCode);
         // 判断返回的错误码
         switch (errorCode) {
             case ErrorCode.ERROR_TRANSF_ACCESSTOKEN_ERROR:
@@ -209,6 +207,8 @@ public class EzPlaybackView extends EZUIPlayerView implements SurfaceHolder.Call
                 txt = "视频播放失败";
                 break;
         }
+        stopPlayback();
+        Log.i(TAG, "handleRealPlayFail: errorCode:" + errorCode);
         Log.e(TAG, "handleRealPlayFail: " + txt);
     }
 

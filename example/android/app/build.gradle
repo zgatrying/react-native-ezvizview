@@ -133,7 +133,7 @@ android {
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
         versionName "1.0"
-
+        multiDexEnabled true
         //ezviz
         ndk {
           abiFilters "armeabi-v7a" //自4.8.8版本开始支持arm64-v8a，按需使用
@@ -192,8 +192,7 @@ dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
     //noinspection GradleDynamicVersion
     implementation "com.facebook.react:react-native:+"  // From node_modules
-
-    api 'com.hikvision.ezviz:ezviz-sdk:5.0.0'
+    api 'com.ezviz.sdk:ezviz-sdk:4.16.1'
 
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.0.0"
     debugImplementation("com.facebook.flipper:flipper:${FLIPPER_VERSION}") {

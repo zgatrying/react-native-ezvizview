@@ -72,6 +72,9 @@ npm install --save react-native-ezvizview
             jniLibs.srcDirs = ['libs']
         }
     }
+    dependencies {
+      api 'com.ezviz.sdk:ezviz-sdk:4.16.1' //因为在MainApplication.java中需要用到萤石sdk的方法，所以需要配置此项
+    }
 ```
 
 在`android/app/src/.../MainApplication.java`中初始化sdk：

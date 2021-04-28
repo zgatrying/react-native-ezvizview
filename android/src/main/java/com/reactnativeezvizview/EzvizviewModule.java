@@ -41,7 +41,7 @@ public class EzvizviewModule extends ReactContextBaseJavaModule {
 
   @ReactMethod
   public void setAccessToken(String accessToken) {
-    EZOpenSDK.setAccessToken(accessToken);
+    EZOpenSDK.getInstance().setAccessToken(accessToken);
   }
 
   @ReactMethod
@@ -55,7 +55,7 @@ public class EzvizviewModule extends ReactContextBaseJavaModule {
     for (int i = 0; i < encryptData.size(); i++) {
       inputData[i] = (byte) encryptData.getInt(i);
     }
-    byte[] decryptData = EZOpenSDK.decryptData(inputData, verifyCode);
+    byte[] decryptData = EZOpenSDK.getInstance().decryptData(inputData, verifyCode);
     if(decryptData != null) {
       String base64Url = Base64.encodeToString(decryptData, Base64.DEFAULT);
       promise.resolve(base64Url);

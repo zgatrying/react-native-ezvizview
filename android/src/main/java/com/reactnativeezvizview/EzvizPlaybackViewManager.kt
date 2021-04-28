@@ -25,7 +25,7 @@ class EzvizPlaybackViewManager: SimpleViewManager<EzPlaybackView>() {
   override fun getName() = "RCTEzvizPlaybackView"
 
   override fun createViewInstance(reactContext: ThemedReactContext): EzPlaybackView {
-    return EzPlaybackView(reactContext)
+    return EzPlaybackView(reactContext, reactContext.getCurrentActivity())
   }
 
   override fun getExportedCustomBubblingEventTypeConstants(): MutableMap<String, Any> {

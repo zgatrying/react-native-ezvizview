@@ -48,7 +48,7 @@ public class MainApplication extends Application implements ReactApplication {
     super.onCreate();
 
     EZOpenSDK.showSDKLog(true);
-    EZOpenSDK.initSDK(this, "a74a7554f19b42ca9646b84cfad7b9ab");
+    EZOpenSDK.initLib(this, "a74a7554f19b42ca9646b84cfad7b9ab");
 
     SoLoader.init(this, /* native exopackage */ false);
     initializeFlipper(this, getReactNativeHost().getReactInstanceManager()); // Remove this line if you don't want Flipper enabled
