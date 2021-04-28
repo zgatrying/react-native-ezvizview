@@ -11,5 +11,11 @@ export function getAccessToken() {
   return fetch({
     url: `/accessToken`,
     method: 'get',
+  }).then((res) => {
+    if (res && res.data && res.data.data) {
+      let data: any = res.data.data;
+      let { accessToken } = data;
+      return accessToken;
+    }
   });
 }

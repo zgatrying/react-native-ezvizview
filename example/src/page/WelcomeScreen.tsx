@@ -29,12 +29,10 @@ export default function WelcomeScreen({ navigation }: Props) {
             title="获取AccessToken"
             onPress={async () => {
               //获取AccessToken并设置AccessToken
-              const res = await getAccessToken();
-              if (res.data && res.data.data && res.data.data.accessToken) {
-                console.log(res.data);
-                const token = res.data.data.accessToken;
-                setAccessToken(token);
-                setEzAccessToken(token);
+              const developerAccessToken = await getAccessToken();
+              if (developerAccessToken) {
+                setAccessToken(developerAccessToken);
+                setEzAccessToken(developerAccessToken);
               }
             }}
           />

@@ -19,6 +19,11 @@
 
 RCT_EXPORT_MODULE();
 
+RCT_EXPORT_METHOD(setAccessToken: (NSString *) accessToken)
+{
+    [EZOPENSDK setAccessToken:accessToken];
+}
+
 RCT_EXPORT_METHOD(decryptData: (NSArray *) encryptData
                   verifyCode: (NSString *)verifyCode
                   resolver: (RCTPromiseResolveBlock) resolver
