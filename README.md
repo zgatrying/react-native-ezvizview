@@ -86,7 +86,7 @@ public class MainApplication extends Application implements ReactApplication {
     super.onCreate();
 
     EZOpenSDK.showSDKLog(true);
-    EZOpenSDK.initSDK(this, "appkey");
+    EZOpenSDK.initLib(this, "appkey");
 
     SoLoader.init(this, /* native exopackage */ false);
     initializeFlipper(this, getReactNativeHost().getReactInstanceManager()); // Remove this line if you don't want Flipper enabled
@@ -292,7 +292,6 @@ Prop | 描述
 ## 参考
 
 - [萤石云开放平台文档](https://open.ys7.com/doc/zh/)
-- [Gitee 上的 EZOpenAPP-Lite-Android 项目](https://gitee.com/cjolinss/EZOpenAPP-Lite-Android)
 
 ## License
 
