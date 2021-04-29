@@ -26,6 +26,8 @@ import com.videogo.openapi.EZConstants;
 import com.videogo.openapi.EZConstants.EZRealPlayConstants;
 import com.videogo.openapi.EZOpenSDK;
 import com.videogo.openapi.EZPlayer;
+import com.videogo.realplay.RealPlayStatus;
+import com.videogo.util.ConnectionDetector;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -37,12 +39,7 @@ public class Ezview extends EZUIPlayerView implements SurfaceHolder.Callback, Ha
     private int mCameraNo = -1;
     private String mVerifyCode = "";
 
-    public final static int STATUS_INIT = 1;
-    public final static int STATUS_START = 2;
-    public final static int STATUS_PLAY = 3;
-    public final static int STATUS_STOP = 4;
-
-    public int mStatus = STATUS_INIT;
+    public int mStatus = RealPlayStatus.STATUS_INIT;
     private boolean isSoundOpen = true;
 
     private EZUIPlayerView mEZUIPlayerView;
@@ -115,16 +112,6 @@ public class Ezview extends EZUIPlayerView implements SurfaceHolder.Callback, Ha
         mVerifyCode = verifyCode;
     }
 
-    /**
-     * resume时是否恢复播放
-     */
-    private AtomicBoolean isResumePlay = new AtomicBoolean(true);
-
-    /**
-     * surface是否创建好
-     */
-    private AtomicBoolean isInitSurface = new AtomicBoolean(false);
-
     public Ezview(ThemedReactContext context, Activity activity) {
         super(context);
         mContext = context;
@@ -145,7 +132,7 @@ public class Ezview extends EZUIPlayerView implements SurfaceHolder.Callback, Ha
           return;
         }
         mEZPlayer.setHandler(mHandler);
-        beforeStartRealPlay();
+        startRealPlay();
     }
 
     public void emitEventToJS(String eventName, @Nullable WritableMap event) {
@@ -197,27 +184,34 @@ public class Ezview extends EZUIPlayerView implements SurfaceHolder.Callback, Ha
     @Override
     public void surfaceCreated(SurfaceHolder surfaceHolder) {
         if(mEZPlayer != null) {
-            mEZPlayer.setSurfaceHold(surfaceHolder);
+          mEZPlayer.setSurfaceHold(surfaceHolder);
         }
-        Log.d(TAG, "surfaceCreated isInitSurface = " + isInitSurface);
-        if(isInitSurface.compareAndSet(false, true) && isResumePlay.get()) {
-            isResumePlay.set(false);
-            beforeStartRealPlay();
+        mEZUIPlayerView.mRealPlaySh = surfaceHolder;
+        if(mStatus == RealPlayStatus.STATUS_INIT) {
+          startRealPlay();
         }
     }
 
     @Override
     public void surfaceChanged(SurfaceHolder surfaceHolder, int i, int i1, int i2) {
-
+        if(mEZPlayer != null) {
+          mEZPlayer.setSurfaceHold(surfaceHolder);
+        }
+        mEZUIPlayerView.mRealPlaySh = surfaceHolder;
     }
 
     @Override
     public void surfaceDestroyed(SurfaceHolder surfaceHolder) {
         Log.d(TAG, "surfaceDestroyed");
-        isInitSurface.set(false);
+        if(mEZPlayer != null) {
+          mEZPlayer.setSurfaceHold(null);
+        }
+        mEZUIPlayerView.mRealPlaySh = null;
     }
 
     private void stopRealPlay() {
+        Log.d(TAG, "stopRealPlay + " + mStatus);
+        mStatus = RealPlayStatus.STATUS_STOP;
         if(mEZPlayer != null) {
             mEZPlayer.stopRealPlay();
         }
@@ -233,40 +227,37 @@ public class Ezview extends EZUIPlayerView implements SurfaceHolder.Callback, Ha
         }
     }
 
-    private void beforeStartRealPlay() {
-        Log.d(TAG, "startRealPlay mStatus = " + mStatus);
-        if(mStatus == STATUS_START || mStatus == STATUS_PLAY) {
-            return;
-        }
-        if(!EZOpenUtils.isNetworkAvailable(mContext)) {
-            return;
-        }
-        startRealPlay();
-    }
-
     private void startRealPlay() {
-        if(!TextUtils.isEmpty(mVerifyCode)) {
-            mEZPlayer.setPlayVerifyCode(mVerifyCode);
+        Log.d(TAG, "startRealPlay mStatus = " + mStatus);
+        if (mStatus == RealPlayStatus.STATUS_START || mStatus == RealPlayStatus.STATUS_PLAY) {
+          return;
         }
-        mStatus = STATUS_START;
-        mEZPlayer.startRealPlay();
+        if(!ConnectionDetector.isNetworkAvailable(mActivity)) {
+          return;
+        }
+        mStatus = RealPlayStatus.STATUS_START;
+        if(mDeviceSerial != null && mVerifyCode != null) {
+          mEZPlayer = EZOpenSDK.getInstance().createPlayer(mDeviceSerial, mCameraNo);
+          if(mEZPlayer == null) {
+            return;
+          }
+          mEZPlayer.setPlayVerifyCode(mVerifyCode);
+          mEZPlayer.setHandler(mHandler);
+          mEZPlayer.setSurfaceHold(mEZUIPlayerView.mRealPlaySh);
+
+          mEZPlayer.startRealPlay();
+        }
     }
 
     public void pause() {
-        Log.d(TAG, "onStop + " + mStatus);
-        if(mStatus != STATUS_STOP) {
-            isResumePlay.set(true);
-        }
-        mStatus = STATUS_STOP;
+      if(mStatus != RealPlayStatus.STATUS_STOP) {
         stopRealPlay();
+      }
     }
 
     public void rePlay() {
         Log.d(TAG, "onReplay   mStatus = " + mStatus);
-        Log.d(TAG, "onReplay   isInitSurface = " + isInitSurface +"   isResumePlay = "+isResumePlay);
-        if(isResumePlay.get() && isInitSurface.get()) {
-          isResumePlay.set(false);
-          Log.d(TAG, "onResume   isInitSurface = " + isInitSurface);
+        if(mStatus == RealPlayStatus.STATUS_STOP || mStatus == RealPlayStatus.STATUS_DECRYPT) {
           startRealPlay();
         }
     }
@@ -275,6 +266,7 @@ public class Ezview extends EZUIPlayerView implements SurfaceHolder.Callback, Ha
         Log.d(TAG, "onDestroy: ");
         if (mEZPlayer != null) {
             mEZPlayer.release();
+            mHandler = null;
         }
     }
 }

@@ -26,8 +26,7 @@ public class EZUIPlayerView extends RelativeLayout {
     private static final String TAG = "EzUIPlayer";
     private Context mContext;
     private SurfaceView mSurfaceView;
-    private SurfaceHolder.Callback mCallback;
-
+    public SurfaceHolder mRealPlaySh = null;
 
     public EZUIPlayerView(Context context) {
         super(context);
@@ -66,9 +65,9 @@ public class EZUIPlayerView extends RelativeLayout {
 
     public void setSurfaceHolderCallback(SurfaceHolder.Callback callback){
         if (callback != null) {
-            this.mCallback = callback;
             if (mSurfaceView != null) {
-                mSurfaceView.getHolder().addCallback(callback);
+                mRealPlaySh = mSurfaceView.getHolder();
+                mRealPlaySh.addCallback(callback);
             }
         }
     }
