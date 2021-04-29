@@ -31,6 +31,7 @@ type Props = {
 export default function AlarmListScreen({ route, navigation }: Props) {
   const routeParams = route.params;
   const { accessToken, deviceSerial, verifyCode, cameraNo } = routeParams;
+  console.log(deviceSerial, verifyCode, cameraNo);
   const [alarmList, setAlarmList] = useState<Array<DeviceAlarmListItem>>([]);
   useEffect(() => {
     let lastMonthDate = new Date();

@@ -24,6 +24,10 @@ import com.videogo.exception.ErrorCode;
 import com.videogo.openapi.EZConstants;
 import com.videogo.openapi.EZOpenSDK;
 import com.videogo.openapi.EZPlayer;
+import com.videogo.realplay.RealPlayStatus;
+import com.videogo.remoteplayback.RemotePlayBackMsg;
+import com.videogo.util.ConnectionDetector;
+import com.videogo.util.LogUtil;
 
 import java.util.Calendar;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -38,10 +42,11 @@ public class EzPlaybackView extends EZUIPlayerView implements SurfaceHolder.Call
     private Calendar mStartTime;
     private Calendar mEndTime;
 
-    public final static int STATUS_INIT = 1;
-    public final static int STATUS_START = 2;
+    public final static int STATUS_INIT = 0;
+    public final static int STATUS_START = 1;
+    public final static int STATUS_STOP = 2;
     public final static int STATUS_PLAY = 3;
-    public final static int STATUS_STOP = 4;
+    public final static int STATUS_PAUSE = 4;
 
     public int mStatus = STATUS_INIT;
     private boolean isSoundOpen = true;
@@ -59,13 +64,19 @@ public class EzPlaybackView extends EZUIPlayerView implements SurfaceHolder.Call
       }
       Log.d(TAG, "handleMessage: " + msg.what);
       switch (msg.what) {
-        case EZConstants.EZRealPlayConstants.MSG_REALPLAY_PLAY_SUCCESS:
+        case RemotePlayBackMsg.MSG_REMOTEPLAYBACK_PLAY_SUCCUSS:
           emitEventToJS(Events.EVENT_PLAY_SUCCESS.toString(), null);
+          mStatus = STATUS_PLAY;
           setPlaySound();
           break;
-        case EZConstants.EZRealPlayConstants.MSG_REALPLAY_PLAY_FAIL:
+        case RemotePlayBackMsg.MSG_REMOTEPLAYBACK_PLAY_FAIL:
+        case RemotePlayBackMsg.MSG_REMOTEPLAYBACK_SEARCH_FILE_FAIL:
           emitEventToJS(Events.EVENT_PLAY_FAILED.toString(), null);
           handleRealPlayFail(msg.obj);
+          break;
+        case RemotePlayBackMsg.MSG_REMOTEPLAYBACK_PLAY_FINISH:
+          emitEventToJS(Events.EVENT_COMPLETION.toString(), null);
+          stopRemotePlayBack();
           break;
         default:
           break;
@@ -133,40 +144,24 @@ public class EzPlaybackView extends EZUIPlayerView implements SurfaceHolder.Call
       this.mEndTime = mEndTime;
     }
 
-  /**
-     * resume时是否恢复播放
-     */
-    private AtomicBoolean isResumePlay = new AtomicBoolean(true);
-
-    /**
-     * surface是否创建好
-     */
-    private AtomicBoolean isInitSurface = new AtomicBoolean(false);
-
     public EzPlaybackView(ThemedReactContext context, Activity activity) {
         super(context);
         mContext = context;
         mActivity = activity;
         mEZUIPlayerView = this;
         mHandler = new Handler(this);
-        emitEventToJS(Events.EVENT_LOAD.toString(), null);
     }
 
     public void createPlayer() {
-       mEZUIPlayerView.setSurfaceHolderCallback(this);
-        if(TextUtils.isEmpty(mDeviceSerial) || mCameraNo == -1) {
-            Log.d(TAG, "mDeviceSerial or cameraNo is null");
-            return;
-        }
-        mEZPlayer = EZOpenSDK.getInstance().createPlayer(mDeviceSerial, mCameraNo);
-        if(mEZPlayer == null) {
-          return;
-        }
-        mEZPlayer.setHandler(mHandler);
-        beforeStartPlayback();
+      mEZUIPlayerView.setSurfaceHolderCallback(this);
+      if(TextUtils.isEmpty(mDeviceSerial) || mCameraNo == -1) {
+        Log.d(TAG, "mDeviceSerial or cameraNo is null");
+        return;
+      }
+      startRemotePlayback();
     }
 
-    private void emitEventToJS(String eventName, @Nullable WritableMap event) {
+    public void emitEventToJS(String eventName, @Nullable WritableMap event) {
       mContext.getJSModule(RCTEventEmitter.class).receiveEvent(
         getId(),
         eventName,
@@ -180,6 +175,9 @@ public class EzPlaybackView extends EZUIPlayerView implements SurfaceHolder.Call
           ErrorInfo errorInfo = (ErrorInfo) obj;
           errorCode = errorInfo.errorCode;
         }
+
+        stopRemotePlayBack();
+
         String txt = null;
         // 判断返回的错误码
         switch (errorCode) {
@@ -207,21 +205,16 @@ public class EzPlaybackView extends EZUIPlayerView implements SurfaceHolder.Call
                 txt = "视频播放失败";
                 break;
         }
-        stopPlayback();
-        Log.i(TAG, "handleRealPlayFail: errorCode:" + errorCode);
-        Log.e(TAG, "handleRealPlayFail: " + txt);
+        Log.i(TAG, "handlePlaybackFail: errorCode:" + errorCode);
+        Log.e(TAG, "handlePlaybackFail: " + txt);
     }
 
     @Override
     public void surfaceCreated(SurfaceHolder surfaceHolder) {
-        if(mEZPlayer != null) {
-            mEZPlayer.setSurfaceHold(surfaceHolder);
-        }
-        Log.d(TAG, "surfaceCreated isInitSurface = " + isInitSurface);
-        if(isInitSurface.compareAndSet(false, true) && isResumePlay.get()) {
-            isResumePlay.set(false);
-            beforeStartPlayback();
-        }
+      if(mEZPlayer != null) {
+        mEZPlayer.setSurfaceHold(surfaceHolder);
+      }
+      mEZUIPlayerView.mRealPlaySh = surfaceHolder;
     }
 
     @Override
@@ -231,14 +224,18 @@ public class EzPlaybackView extends EZUIPlayerView implements SurfaceHolder.Call
 
     @Override
     public void surfaceDestroyed(SurfaceHolder surfaceHolder) {
-        Log.d(TAG, "surfaceDestroyed");
-        isInitSurface.set(false);
+      if(mEZPlayer != null) {
+        mEZPlayer.setSurfaceHold(null);
+      }
+      mEZUIPlayerView.mRealPlaySh = null;
     }
 
-    private void stopPlayback() {
-        if(mEZPlayer != null) {
-            mEZPlayer.pausePlayback();
-        }
+    private void stopRemotePlayBack() {
+      LogUtil.d(TAG, "stopRemotePlayBack");
+      mStatus = STATUS_STOP;
+      if(mEZPlayer != null) {
+        mEZPlayer.stopPlayback();
+      }
     }
 
     private void setPlaySound() {
@@ -251,57 +248,82 @@ public class EzPlaybackView extends EZUIPlayerView implements SurfaceHolder.Call
         }
     }
 
-    private void beforeStartPlayback() {
-        Log.d(TAG, "startPlayback mStatus = " + mStatus);
-        if(mStatus == STATUS_START || mStatus == STATUS_PLAY) {
-            return;
-        }
-        if(!EZOpenUtils.isNetworkAvailable(mContext)) {
-            return;
-        }
-        startPlayback();
-    }
-
-    private void startPlayback() {
-        if(!TextUtils.isEmpty(mVerifyCode)) {
-            mEZPlayer.setPlayVerifyCode(mVerifyCode);
-        }
-        mStatus = STATUS_START;
-        mEZPlayer.startPlayback(mStartTime, mEndTime);
-    }
-
-    public void pause() {
-      Log.d(TAG, "onStop + " + mStatus);
-      if(mStatus != STATUS_STOP) {
-        isResumePlay.set(true);
+    private void startRemotePlayback() {
+      Log.d(TAG, "startRemotePlayBack:" + mStartTime + ", " + mEndTime);
+      if(mStatus == STATUS_START || mStatus == STATUS_PLAY) {
+        return;
       }
-      mStatus = STATUS_STOP;
-      stopPlayback();
+      if(!ConnectionDetector.isNetworkAvailable(mActivity)) {
+        return;
+      }
+
+      if(mEZPlayer != null && mStatus == STATUS_PAUSE) {
+        resumeRemotePlayBack();
+        return;
+      }
+
+      mStatus = STATUS_START;
+      if(mEZPlayer == null) {
+        mEZPlayer = EZOpenSDK.getInstance().createPlayer(mDeviceSerial, mCameraNo);
+        if(mEZPlayer == null) {
+          return;
+        }
+        if(mVerifyCode != null) {
+          mEZPlayer.setPlayVerifyCode(mVerifyCode);
+        }
+        mEZPlayer.setHandler(mHandler);
+        mEZPlayer.setSurfaceHold(mEZUIPlayerView.mRealPlaySh);
+      }
+
+      if(mStartTime != null && mEZPlayer != null) {
+        mEZPlayer.startPlayback(mStartTime, mEndTime);
+      }
     }
 
-    public void resumePlay() {
-      Log.d(TAG, "onResumeRealPlay   mStatus = " + mStatus);
-      Log.d(TAG, "onResumeRealPlay   isInitSurface = " + isInitSurface +"   isResumePlay = "+isResumePlay);
-      if(isResumePlay.get() && isInitSurface.get()) {
-        isResumePlay.set(false);
-        Log.d(TAG, "resumeRealPlay   isInitSurface = " + isInitSurface);
-        mStatus = STATUS_PLAY;
+    private void resumeRemotePlayBack() {
+      LogUtil.d(TAG, "resumeRemotePlayBack");
+      mStatus = STATUS_PLAY;
+
+      if (mEZPlayer != null) {
+        mEZPlayer.openSound();
         mEZPlayer.resumePlayback();
       }
     }
 
-    public void rePlay() {
-      if(mStatus == STATUS_PLAY) {
-        stopPlayback();
-        SystemClock.sleep(500);
-        startPlayback();
-      } else {
-        startPlayback();
+    private void pauseRemotePlayback() {
+      Log.d(TAG, "pauseRemotePlayback: ");
+      mStatus = STATUS_PAUSE;
+
+      if(mEZPlayer != null) {
+        mEZPlayer.pausePlayback();
       }
     }
 
+    public void pause() {
+      Log.d(TAG, "pause + " + mStatus);
+      if(mEZPlayer != null && mStatus == STATUS_PLAY) {
+        pauseRemotePlayback();
+      }
+    }
+
+    public void resumePlay() {
+      Log.d(TAG, "resumePlay mStatus = " + mStatus);
+      if(mEZPlayer != null && mStatus == STATUS_PAUSE) {
+        resumeRemotePlayBack();
+      }
+    }
+
+    public void rePlay() {
+      Log.d(TAG, "replay   mStatus = " + mStatus);
+      if(mStatus == STATUS_PLAY) {
+        stopRemotePlayBack();
+        SystemClock.sleep(500);
+      }
+      startRemotePlayback();
+    }
+
     public void releasePlayer() {
-      Log.d(TAG, "onDestroy: ");
+      Log.d(TAG, "releasePlayer: ");
       if (mEZPlayer != null) {
         mEZPlayer.release();
       }

@@ -2,7 +2,6 @@ package com.reactnativeezvizview
 
 import android.util.Log
 import com.easemore.ezvizview.ezuiplayerview.EzPlaybackView
-import com.easemore.ezvizview.ezuiplayerview.Ezview
 import com.easemore.ezvizview.ezuiplayerview.utils.EZOpenUtils
 import com.facebook.infer.annotation.Assertions
 import com.facebook.react.bridge.ReadableArray
@@ -112,5 +111,10 @@ class EzvizPlaybackViewManager: SimpleViewManager<EzPlaybackView>() {
     var time:Calendar = EZOpenUtils.parseTimeToCalendar(endTime);
     Log.d(TAG, "setEndTime: " + time.time)
     view.setmEndTime(time);
+  }
+
+  override fun onAfterUpdateTransaction(view: EzPlaybackView) {
+    super.onAfterUpdateTransaction(view);
+    view.emitEventToJS(EzPlaybackView.Events.EVENT_LOAD.toString(), null);
   }
 }

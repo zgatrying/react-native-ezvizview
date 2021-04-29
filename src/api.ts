@@ -59,7 +59,7 @@ export function getDeviceAlarmList(
   data: GetDeviceAlarmListRequest
 ): AxiosPromise<DeviceAlarmListResponse> {
   return fetch({
-    url: '/alarm/list',
+    url: '/alarm/device/list',
     method: 'POST',
     params: data,
   });

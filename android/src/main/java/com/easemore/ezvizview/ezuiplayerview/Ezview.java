@@ -127,11 +127,6 @@ public class Ezview extends EZUIPlayerView implements SurfaceHolder.Callback, Ha
             Log.d(TAG, "mDeviceSerial or cameraNo is null");
             return;
         }
-        mEZPlayer = EZOpenSDK.getInstance().createPlayer(mDeviceSerial, mCameraNo);
-        if(mEZPlayer == null) {
-          return;
-        }
-        mEZPlayer.setHandler(mHandler);
         startRealPlay();
     }
 
@@ -265,8 +260,8 @@ public class Ezview extends EZUIPlayerView implements SurfaceHolder.Callback, Ha
     public void releasePlayer() {
         Log.d(TAG, "onDestroy: ");
         if (mEZPlayer != null) {
-            mEZPlayer.release();
-            mHandler = null;
+          mEZPlayer.release();
+          mHandler = null;
         }
     }
 }
