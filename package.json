@@ -154,6 +154,7 @@
   },
   "dependencies": {
     "axios": "^0.21.1",
-    "qs": "^6.10.1"
+    "qs": "^6.10.1",
+    "use-async-effect": "^2.2.3"
   }
 }

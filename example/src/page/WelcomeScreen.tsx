@@ -99,6 +99,7 @@ export default function WelcomeScreen({ navigation }: Props) {
             </View>
           </View>
           <Button
+            disabled={deviceSerial.trim() === '' || verifyCode.trim() === ''}
             title="查看摄像机实时画面"
             onPress={() => {
               if (accessToken) {
@@ -113,6 +114,7 @@ export default function WelcomeScreen({ navigation }: Props) {
           />
           <Divider />
           <Button
+            disabled={deviceSerial.trim() === '' || verifyCode.trim() === ''}
             title="查看告警信息列表"
             onPress={() => {
               navigation.navigate('AlarmList', {
@@ -120,6 +122,15 @@ export default function WelcomeScreen({ navigation }: Props) {
                 deviceSerial,
                 cameraNo,
                 verifyCode,
+              });
+            }}
+          />
+          <Divider />
+          <Button
+            title="查看已添加设备列表"
+            onPress={() => {
+              navigation.navigate('DeviceList', {
+                accessToken,
               });
             }}
           />

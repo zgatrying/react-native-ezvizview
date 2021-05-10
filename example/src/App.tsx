@@ -7,6 +7,7 @@ import WelcomeScreen from './page/WelcomeScreen';
 import AlarmListScreen from './page/AlarmListScreen';
 import PlaybackScreen from './page/PlaybackScreen';
 import type { DeviceAlarmListItem } from 'src/ys_api';
+import DeviceListScreen from './page/DeviceListScreen';
 
 const Stack = createStackNavigator();
 
@@ -23,6 +24,9 @@ export type RootStackParamList = {
   AlarmList: EzvizTestInfo;
   Playback: EzvizTestInfo & {
     alarmInfo: DeviceAlarmListItem;
+  };
+  DeviceList: {
+    accessToken: string;
   };
 };
 
@@ -49,6 +53,11 @@ export default function App() {
           name="Playback"
           options={{ title: '回放' }}
           component={PlaybackScreen}
+        />
+        <Stack.Screen
+          name="DeviceList"
+          options={{ title: '已添加设备列表' }}
+          component={DeviceListScreen}
         />
       </Stack.Navigator>
     </NavigationContainer>

@@ -19,3 +19,30 @@ export function getAccessToken() {
     }
   });
 }
+
+export type BindDevice = {
+  addTime: number;
+  defence: number;
+  deviceName: string;
+  deviceSerial: string;
+  deviceType: string;
+  deviceVersion: string;
+  id: string;
+  parentCategory: string;
+  status: number;
+  updateTime: number;
+};
+
+export function getDeveloperBindDeviceList(data: {
+  accessToken: string;
+  pageStart?: number;
+  pageSize?: number;
+}): Promise<Array<BindDevice>> {
+  return axios({
+    url: `https://open.ys7.com/api/lapp/device/list`,
+    method: 'post',
+    params: data,
+  }).then((res) => {
+    return res.data && res.data.data;
+  });
+}
