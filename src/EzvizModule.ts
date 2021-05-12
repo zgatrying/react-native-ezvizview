@@ -32,3 +32,17 @@ export async function decryptUrl(encryptUrl: string, verifyCode: string) {
     return encryptUrl;
   }
 }
+
+export async function configWifi(
+  deviceSerial: string,
+  deviceType: string,
+  wifiSSID: string,
+  wifiPassword: string
+) {
+  await RNEzvizview.configWifi(
+    deviceSerial,
+    deviceType,
+    wifiSSID,
+    wifiPassword
+  );
+}

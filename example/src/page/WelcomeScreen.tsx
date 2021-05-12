@@ -134,6 +134,13 @@ export default function WelcomeScreen({ navigation }: Props) {
               });
             }}
           />
+          <Divider />
+          <Button
+            title="扫码添加设备"
+            onPress={() => {
+              navigation.navigate('ScanScreen');
+            }}
+          />
         </View>
       )}
     </View>

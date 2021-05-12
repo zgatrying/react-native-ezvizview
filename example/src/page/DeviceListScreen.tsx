@@ -2,6 +2,7 @@ import type { RouteProp } from '@react-navigation/core';
 import type { StackNavigationProp } from '@react-navigation/stack';
 import React, { useState } from 'react';
 import { Text, View } from 'react-native';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 import { useAsyncEffect } from 'use-async-effect';
 import { BindDevice, getDeveloperBindDeviceList } from '../api';
 import type { RootStackParamList } from '../App';
@@ -18,7 +19,7 @@ type Props = {
   navigation: DeviceListScreenNavigationProps;
 };
 
-export default function DeviceListScreen({ route }: Props) {
+export default function DeviceListScreen({ route, navigation }: Props) {
   const routeParams = route.params;
   const { accessToken } = routeParams;
   const [deviceList, setDeviceList] = useState<BindDevice[]>([]);
@@ -31,10 +32,8 @@ export default function DeviceListScreen({ route }: Props) {
 
   return (
     <View>
-      <Text>已添加设备列表页面</Text>
-
       {deviceList.map((device) => (
-        <View
+        <TouchableOpacity
           key={device.id}
           style={{
             marginVertical: 6,
@@ -44,11 +43,21 @@ export default function DeviceListScreen({ route }: Props) {
             backgroundColor: '#fff',
             borderRadius: 10,
           }}
+          onPress={() => {
+            navigation.navigate('DeviceInfo', {
+              accessToken,
+              deviceSerial: device.deviceSerial,
+            });
+          }}
         >
-          <Text>绑定时间: {new Date(device.addTime).toString()}</Text>
-          <Text>设备名称：{device.deviceName}</Text>
-          <Text>设备序列号：{device.deviceSerial}</Text>
-        </View>
+          <View>
+            <Text>绑定时间: {new Date(device.addTime).toString()}</Text>
+            <Text>设备名称：{device.deviceName}</Text>
+            <Text>设备序列号：{device.deviceSerial}</Text>
+            <Text>布撤防状态：{device.defence === 0 ? '撤防' : '布防'}</Text>
+            <Text>是否在线：{device.status === 0 ? '不在线' : '在线'}</Text>
+          </View>
+        </TouchableOpacity>
       ))}
     </View>
   );

@@ -138,6 +138,7 @@ android {
         ndk {
           abiFilters "armeabi-v7a" //自4.8.8版本开始支持arm64-v8a，按需使用
         }
+        missingDimensionStrategy 'react-native-camera', 'general' // <--- insert this line
     }
     sourceSets {
         main {

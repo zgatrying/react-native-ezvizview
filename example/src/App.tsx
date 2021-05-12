@@ -8,6 +8,9 @@ import AlarmListScreen from './page/AlarmListScreen';
 import PlaybackScreen from './page/PlaybackScreen';
 import type { DeviceAlarmListItem } from 'src/ys_api';
 import DeviceListScreen from './page/DeviceListScreen';
+import DeviceInfoScreen from './page/DeviceInfoScreen';
+import AutoWifiConfigScreen from './page/AutoWifiConfig';
+import ScanScreen from './page/ScanScreen';
 
 const Stack = createStackNavigator();
 
@@ -28,6 +31,15 @@ export type RootStackParamList = {
   DeviceList: {
     accessToken: string;
   };
+  DeviceInfo: {
+    accessToken: string;
+    deviceSerial: string;
+  };
+  AutoWifiConfig: {
+    deviceSerial: string;
+    deviceType: string;
+  };
+  ScanScreen: undefined;
 };
 
 export default function App() {
@@ -58,6 +70,21 @@ export default function App() {
           name="DeviceList"
           options={{ title: '已添加设备列表' }}
           component={DeviceListScreen}
+        />
+        <Stack.Screen
+          name="DeviceInfo"
+          options={{ title: '已添加设备信息页' }}
+          component={DeviceInfoScreen}
+        />
+        <Stack.Screen
+          name="AutoWifiConfig"
+          options={{ title: '设备配网' }}
+          component={AutoWifiConfigScreen}
+        />
+        <Stack.Screen
+          name="ScanScreen"
+          options={{ title: '扫一扫' }}
+          component={ScanScreen}
         />
       </Stack.Navigator>
     </NavigationContainer>
