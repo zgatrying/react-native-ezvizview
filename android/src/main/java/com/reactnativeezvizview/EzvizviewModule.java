@@ -6,6 +6,7 @@ import android.util.Log;
 import androidx.annotation.Nullable;
 
 import com.easemore.ezvizview.ezuiplayerview.utils.EZOpenUtils;
+import com.ezviz.sdk.configwifi.EZConfigWifiInfoEnum;
 import com.facebook.react.bridge.Promise;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
@@ -24,6 +25,7 @@ import com.videogo.openapi.bean.EZCloudRecordFile;
 import com.videogo.openapi.bean.EZProbeDeviceInfo;
 import com.videogo.openapi.bean.EZProbeDeviceInfoResult;
 import com.videogo.util.LogUtil;
+import com.videogo.wificonfig.APWifiConfig;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -78,6 +80,7 @@ public class EzvizviewModule extends ReactContextBaseJavaModule {
   public void configWifi(
     String deviceSerial,
     String deviceType,
+    String verifyCode,
     String wifiSSID,
     String wifiPassword,
     Promise promise
@@ -106,15 +109,65 @@ public class EzvizviewModule extends ReactContextBaseJavaModule {
               isPlatConnected = true;
               EZOpenSDK.getInstance().stopConfigWiFi();
               Log.d(TAG, "run: 设备注册到平台成功，可以调用添加设备接口添加设备");
+              promise.resolve("success");
             }
           }
         });
       }
     };
+    APWifiConfig.APConfigCallback apConfigCallback = new APWifiConfig.APConfigCallback() {
+      @Override
+      public void onSuccess() {
+        EZOpenSDK.getInstance().stopAPConfigWifiWithSsid();
+        Log.d(TAG, "startAPConfigWifiWithSsid onSuccess mDeviceSerial = " + deviceSerial);
+      }
+
+      @Override
+      public void onInfo(int code, String message) {
+        if(code == EZConfigWifiInfoEnum.CONNECTED_TO_PLATFORM.code) {
+          Log.d(TAG, "onInfo: 设备注册到平台成功, 可以调用添加设备接口添加设备");
+          promise.resolve("success");
+        }
+        if(code == EZConfigWifiInfoEnum.CONNECTED_TO_WIFI.code) {
+          Log.d(TAG, "onInfo: 设备wifi连接成功");
+        }
+      }
+
+      @Override
+      public void OnError(int code) {
+        EZOpenSDK.getInstance().stopAPConfigWifiWithSsid();
+        Log.d(TAG, "startAPConfigWifiWithSsid  OnError mDeviceSerial = " + deviceSerial);
+        switch (code) {
+          case 111:
+            Log.d(TAG, "errorCode: " + code);
+            break;
+          case 15:
+            promise.reject("超时");
+            break;
+          case 1:
+            promise.reject("参数错误");
+            break;
+          case 2:
+            promise.reject("设备ap热点密码错误");
+            break;
+          case 3:
+            promise.reject("连接ap热点异常");
+            break;
+          case 4:
+            promise.reject("搜索WiFi热点错误");
+            break;
+          default:
+            promise.reject("AP配网失败，未知错误 " + code);
+            break;
+        }
+      }
+    };
     if(result.getBaseException() == null) {
       Log.d(TAG, "configWifi: 查询成功，添加设备");
+      promise.resolve("success");
       return;
     } else {
+      String errorMessage = "";
       switch (result.getBaseException().getErrorCode()) {
         case 120023:
         case 120002:
@@ -132,13 +185,15 @@ public class EzvizviewModule extends ReactContextBaseJavaModule {
                   Log.d(TAG, "run: 选择声波配网");
                   EZOpenSDK.getInstance().startConfigWifi(EzvizviewModule.this.reactContext, deviceSerial, wifiSSID, wifiPassword,
                     EZConstants.EZWiFiConfigMode.EZWiFiConfigWave, mEZStartConfigWifiCallback);
-                } else if(probeDeviceInfo.getSupportWifi() == 3) {
-                  Log.d(TAG, "run: 选择smartconfig配网");
-                  EZOpenSDK.getInstance().stopConfigWiFi();
-                  EZOpenSDK.getInstance().startConfigWifi(EzvizviewModule.this.reactContext, deviceSerial, wifiSSID, wifiPassword,
-                    EZConstants.EZWiFiConfigMode.EZWiFiConfigSmart, mEZStartConfigWifiCallback);
-                } else if(probeDeviceInfo.getSupportAP() == 2) {
+                } else
+//                  if(probeDeviceInfo.getSupportWifi() == 3) {
+//                  Log.d(TAG, "run: 选择smartconfig配网");
+//                  EZOpenSDK.getInstance().startConfigWifi(EzvizviewModule.this.reactContext, deviceSerial, wifiSSID, wifiPassword,
+//                    EZConstants.EZWiFiConfigMode.EZWiFiConfigSmart, mEZStartConfigWifiCallback);
+//                } else
+                  if(probeDeviceInfo.getSupportAP() == 1) {
                   Log.d(TAG, "run: 选择设备热点配网");
+                  EZOpenSDK.getInstance().startAPConfigWifiWithSsid(wifiSSID, wifiPassword, deviceSerial, verifyCode, apConfigCallback);
                 }
               }
             }
@@ -146,12 +201,23 @@ public class EzvizviewModule extends ReactContextBaseJavaModule {
           break;
         case 120020:
           Log.d(TAG, "configWifi: 设备在线，已经被自己添加");
+          errorMessage = "设备在线，已经被自己添加";
+          promise.reject(errorMessage);
+          break;
         case 120022:
           Log.d(TAG, "configWifi: 设备在线，已经被别的用户添加");
+          errorMessage = "设备在线，已经被别的用户添加";
+          promise.reject(errorMessage);
+          break;
         case 120024:
           Log.d(TAG, "configWifi: 设备不在线，已被别的用户添加");
+          errorMessage = "设备不在线，已被别的用户添加";
+          promise.reject(errorMessage);
+          break;
         default:
           Log.d(TAG, "configWifi: Request failed = " + result.getBaseException().getErrorCode());
+          errorMessage = "Request failed = " + result.getBaseException().getErrorCode();
+          promise.reject(errorMessage);
           break;
       }
     }

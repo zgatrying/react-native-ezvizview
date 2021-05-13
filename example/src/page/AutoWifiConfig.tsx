@@ -1,9 +1,10 @@
 import type { RouteProp } from '@react-navigation/core';
 import type { StackNavigationProp } from '@react-navigation/stack';
 import React, { useState } from 'react';
-import { Button, View } from 'react-native';
+import { Alert, Button, View } from 'react-native';
 import { configWifi } from 'react-native-ezvizview';
 import { TextInput } from 'react-native-gesture-handler';
+import { addDevice } from '../api';
 import type { RootStackParamList } from '../App';
 
 type ScreenNavigationProps = StackNavigationProp<
@@ -18,9 +19,9 @@ type Props = {
   navigation: ScreenNavigationProps;
 };
 
-export default function AutoWifiConfigScreen({ route }: Props) {
+export default function AutoWifiConfigScreen({ route, navigation }: Props) {
   const routeParams = route.params;
-  const { deviceSerial, deviceType } = routeParams;
+  const { accessToken, deviceSerial, deviceType, validateCode } = routeParams;
   const [ssid, setSsid] = useState('');
   const [password, setPassword] = useState('');
   console.log('deviceSerial', deviceSerial);
@@ -56,10 +57,32 @@ export default function AutoWifiConfigScreen({ route }: Props) {
       <Button
         title="确定"
         disabled={ssid.trim() === ''}
-        onPress={() => {
+        onPress={async () => {
           if (ssid.trim() !== '') {
-            console.log('调用sdk的配网方法');
-            configWifi(deviceSerial, deviceType, ssid, password);
+            try {
+              await configWifi(
+                deviceSerial,
+                deviceType,
+                validateCode,
+                ssid,
+                password
+              );
+              await addDevice({
+                accessToken,
+                deviceSerial,
+                validateCode,
+              });
+              Alert.alert('设备添加成功', '', [
+                {
+                  text: '确定',
+                  onPress: () => {
+                    navigation.goBack();
+                  },
+                },
+              ]);
+            } catch (error) {
+              Alert.alert('配网失败', error.message);
+            }
           }
         }}
       />

@@ -1,7 +1,7 @@
 import type { RouteProp } from '@react-navigation/core';
 import type { StackNavigationProp } from '@react-navigation/stack';
 import React, { useState } from 'react';
-import { Button, Text, View } from 'react-native';
+import { Text, View } from 'react-native';
 import { useAsyncEffect } from 'use-async-effect';
 import { DeviceInfo, getDeviceInfo } from '../api';
 import type { RootStackParamList } from '../App';
@@ -18,7 +18,7 @@ type Props = {
   navigation: DeviceInfoScreenNavigationProps;
 };
 
-export default function DeviceInfoScreen({ route, navigation }: Props) {
+export default function DeviceInfoScreen({ route }: Props) {
   const routeParams = route.params;
   const { accessToken, deviceSerial } = routeParams;
   const [deviceInfo, setDeviceInfo] = useState<DeviceInfo>();
@@ -78,18 +78,6 @@ export default function DeviceInfoScreen({ route, navigation }: Props) {
             </Text>
             <Text>信号强度：{deviceInfo.signal}</Text>
           </View>
-
-          {deviceInfo.netType === 'wireless' && deviceInfo.status === 0 && (
-            <Button
-              title="前往无线配网"
-              onPress={() => {
-                navigation.navigate('AutoWifiConfig', {
-                  deviceSerial: deviceInfo.deviceSerial,
-                  deviceType: deviceInfo.model,
-                });
-              }}
-            />
-          )}
         </View>
       )}
     </View>

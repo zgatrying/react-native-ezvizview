@@ -70,6 +70,19 @@ export function getDeviceInfo(data: {
     method: 'post',
     params: data,
   }).then((res) => {
+    console.log('getDeviceInfo: ', res);
     return res.data && res.data.data;
+  });
+}
+
+export function addDevice(data: {
+  accessToken: string;
+  deviceSerial: string;
+  validateCode: string;
+}) {
+  return axios({
+    url: `https://open.ys7.com/api/lapp/device/add`,
+    method: 'post',
+    params: data,
   });
 }
