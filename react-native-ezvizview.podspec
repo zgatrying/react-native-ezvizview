@@ -16,5 +16,6 @@ Pod::Spec.new do |s|
   s.source_files = "ios/**/*.{h,m,mm,swift}"
 
   s.dependency "React-Core"
-  s.dependency "EZOpenSDK"
+  s.vendored_frameworks = ['ios/Frameworks/EZOpenSDKFramework.framework']
+  s.vendored_libraries= ['ios/Libraries/*.a']
 end

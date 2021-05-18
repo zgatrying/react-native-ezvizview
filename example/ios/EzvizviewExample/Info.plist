@@ -37,8 +37,20 @@
 			</dict>
 		</dict>
 	</dict>
+	<key>NSCameraUsageDescription</key>
+	<string>需要开启摄像头用于扫描摄像机设备上的二维码</string>
+	<key>NSLocalNetworkUsageDescription</key>
+	<string>用于wifi配网</string>
+	<key>NSLocationUsageDescription</key>
+	<string>需要获取您的定位权限用于获取设备wifi信息</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string></string>
+	<string>需要获取您的定位权限用于获取设备wifi信息</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>需要使用手机麦克风</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>需要使用手机相册</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>需要使用手机相册</string>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIRequiredDeviceCapabilities</key>

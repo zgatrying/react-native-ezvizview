@@ -4,10 +4,21 @@
  */
 
 import axios from 'axios';
-import { NativeModules } from 'react-native';
+import { NativeModules, NativeEventEmitter } from 'react-native';
 import qs from 'qs';
 
 export const RNEzvizview = NativeModules.RNEzvizview;
+
+export const RNEzvizviewEmitter = new NativeEventEmitter(RNEzvizview);
+
+export type SupportNativeEventName = '';
+
+export function addEventListener(
+  eventName: SupportNativeEventName,
+  listener: (...args: any[]) => any
+) {
+  return RNEzvizviewEmitter.addListener(eventName, listener);
+}
 
 /**
  * 从萤石sdk获取AccessToken，适用于从SDK的登录H5页面获取AccessToken的方式。
@@ -33,6 +44,15 @@ export async function decryptUrl(encryptUrl: string, verifyCode: string) {
   }
 }
 
+/**
+ * 设备配网
+ * @param deviceSerial
+ * @param deviceType
+ * @param validateCode
+ * @param wifiSSID
+ * @param wifiPassword
+ * @returns
+ */
 export function configWifi(
   deviceSerial: string,
   deviceType: string,
@@ -47,4 +67,28 @@ export function configWifi(
     wifiSSID,
     wifiPassword
   );
+}
+
+/**
+ * 停止设备配网
+ */
+export function stopConfigWifi() {
+  RNEzvizview.stopConfigWifi();
+}
+
+/**
+ * 查询设备是否已添加，是否需要配网
+ * @returns
+ */
+export async function probeDeviceInfo(
+  deviceSerial: string,
+  deviceType: string
+): Promise<{
+  message: string;
+  isAbleToAdd: boolean;
+  isNeedToConfigWifi: boolean;
+}> {
+  let res = await RNEzvizview.probeDeviceInfo(deviceSerial, deviceType);
+  console.log('查询结果', res);
+  return res;
 }

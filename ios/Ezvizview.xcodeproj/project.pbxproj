@@ -7,10 +7,29 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-
-		5E555C0D2413F4C50049A1A2 /* Ezvizview.m in Sources */ = {isa = PBXBuildFile; fileRef = B3E7B5891CC2AC0600A0062D /* Ezvizview.m */; };
-		F4FF95D7245B92E800C19C63 /*  Ezvizview.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4FF95D6245B92E800C19C63 /*  Ezvizview.swift */; };
-
+		04944C9F26521BA3000332F5 /* EZOpenSDKFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04944C9E26521BA3000332F5 /* EZOpenSDKFramework.framework */; };
+		04944CA326521C2C000332F5 /* libssl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 04944CA126521C2C000332F5 /* libssl.a */; };
+		04944CA426521C2C000332F5 /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 04944CA226521C2C000332F5 /* libcrypto.a */; };
+		04944CA626521C42000332F5 /* libsqlite3.0.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 04944CA526521C41000332F5 /* libsqlite3.0.tbd */; };
+		04944CA926521C4B000332F5 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04944CA826521C4B000332F5 /* CoreMedia.framework */; };
+		04944CAB26521C53000332F5 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04944CAA26521C53000332F5 /* AudioToolbox.framework */; };
+		04944CAD26521C5B000332F5 /* VideoToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04944CAC26521C5B000332F5 /* VideoToolbox.framework */; };
+		04944CAF26521C63000332F5 /* GLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04944CAE26521C63000332F5 /* GLKit.framework */; };
+		04944CB126521C6B000332F5 /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04944CB026521C6B000332F5 /* OpenAL.framework */; };
+		04944CB326521C75000332F5 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04944CB226521C74000332F5 /* MobileCoreServices.framework */; };
+		04944CB526521C7E000332F5 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04944CB426521C7E000332F5 /* SystemConfiguration.framework */; };
+		04944CB726521C86000332F5 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04944CB626521C86000332F5 /* CoreTelephony.framework */; };
+		04944CB926521C8F000332F5 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04944CB826521C8F000332F5 /* AVFoundation.framework */; };
+		04944CBB26521C97000332F5 /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 04944CBA26521C97000332F5 /* libc++.tbd */; };
+		04944CBE26521CA0000332F5 /* libiconv.2.4.0.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 04944CBD26521CA0000332F5 /* libiconv.2.4.0.tbd */; };
+		04944CC126521CAA000332F5 /* libbz2.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 04944CC026521CAA000332F5 /* libbz2.tbd */; };
+		04944CC426521CB0000332F5 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 04944CC326521CB0000332F5 /* libz.tbd */; };
+		04944D9926524124000332F5 /* EzvizModule.m in Sources */ = {isa = PBXBuildFile; fileRef = 04944D9326524124000332F5 /* EzvizModule.m */; };
+		04944D9A26524124000332F5 /* EzvizPlaybackView.m in Sources */ = {isa = PBXBuildFile; fileRef = 04944D9426524124000332F5 /* EzvizPlaybackView.m */; };
+		04944D9B26524124000332F5 /* EzvizPlayerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 04944D9526524124000332F5 /* EzvizPlayerView.m */; };
+		04944D9C26524124000332F5 /* EzvizPlayerViewManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 04944D9626524124000332F5 /* EzvizPlayerViewManager.m */; };
+		04944D9D26524124000332F5 /* EzvizPlaybackViewManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 04944D9826524124000332F5 /* EzvizPlaybackViewManager.m */; };
+		F4FF95D7245B92E800C19C63 /* Ezvizview.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4FF95D6245B92E800C19C63 /* Ezvizview.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -26,12 +45,34 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		04944C9E26521BA3000332F5 /* EZOpenSDKFramework.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = EZOpenSDKFramework.framework; path = ../../iOS/EZOpensdk_iOS_4.16.1_build20210330/DynamicSDK/EZOpenSDKFramework.framework; sourceTree = "<group>"; };
+		04944CA026521BCD000332F5 /* com.hri.hpc.mobile.ios.player.metallib */ = {isa = PBXFileReference; lastKnownFileType = "archive.metal-library"; path = com.hri.hpc.mobile.ios.player.metallib; sourceTree = "<group>"; };
+		04944CA126521C2C000332F5 /* libssl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libssl.a; path = ../../iOS/EZOpensdk_iOS_4.16.1_build20210330/openssl/libssl.a; sourceTree = "<group>"; };
+		04944CA226521C2C000332F5 /* libcrypto.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcrypto.a; path = ../../iOS/EZOpensdk_iOS_4.16.1_build20210330/openssl/libcrypto.a; sourceTree = "<group>"; };
+		04944CA526521C41000332F5 /* libsqlite3.0.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.0.tbd; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.1.sdk/usr/lib/libsqlite3.0.tbd; sourceTree = DEVELOPER_DIR; };
+		04944CA826521C4B000332F5 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.1.sdk/System/Library/Frameworks/CoreMedia.framework; sourceTree = DEVELOPER_DIR; };
+		04944CAA26521C53000332F5 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.1.sdk/System/Library/Frameworks/AudioToolbox.framework; sourceTree = DEVELOPER_DIR; };
+		04944CAC26521C5B000332F5 /* VideoToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = VideoToolbox.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.1.sdk/System/Library/Frameworks/VideoToolbox.framework; sourceTree = DEVELOPER_DIR; };
+		04944CAE26521C63000332F5 /* GLKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLKit.framework; path = System/Library/Frameworks/GLKit.framework; sourceTree = SDKROOT; };
+		04944CB026521C6B000332F5 /* OpenAL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenAL.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.1.sdk/System/iOSSupport/System/Library/Frameworks/OpenAL.framework; sourceTree = DEVELOPER_DIR; };
+		04944CB226521C74000332F5 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.1.sdk/System/iOSSupport/System/Library/Frameworks/MobileCoreServices.framework; sourceTree = DEVELOPER_DIR; };
+		04944CB426521C7E000332F5 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.1.sdk/System/Library/Frameworks/SystemConfiguration.framework; sourceTree = DEVELOPER_DIR; };
+		04944CB626521C86000332F5 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.1.sdk/System/Library/Frameworks/CoreTelephony.framework; sourceTree = DEVELOPER_DIR; };
+		04944CB826521C8F000332F5 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.1.sdk/System/Library/Frameworks/AVFoundation.framework; sourceTree = DEVELOPER_DIR; };
+		04944CBA26521C97000332F5 /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.1.sdk/usr/lib/libc++.tbd"; sourceTree = DEVELOPER_DIR; };
+		04944CBD26521CA0000332F5 /* libiconv.2.4.0.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libiconv.2.4.0.tbd; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.1.sdk/usr/lib/libiconv.2.4.0.tbd; sourceTree = DEVELOPER_DIR; };
+		04944CC026521CAA000332F5 /* libbz2.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libbz2.tbd; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.1.sdk/usr/lib/libbz2.tbd; sourceTree = DEVELOPER_DIR; };
+		04944CC326521CB0000332F5 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.1.sdk/usr/lib/libz.tbd; sourceTree = DEVELOPER_DIR; };
+		04944D9326524124000332F5 /* EzvizModule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EzvizModule.m; sourceTree = "<group>"; };
+		04944D9426524124000332F5 /* EzvizPlaybackView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EzvizPlaybackView.m; sourceTree = "<group>"; };
+		04944D9526524124000332F5 /* EzvizPlayerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EzvizPlayerView.m; sourceTree = "<group>"; };
+		04944D9626524124000332F5 /* EzvizPlayerViewManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EzvizPlayerViewManager.m; sourceTree = "<group>"; };
+		04944D9726524124000332F5 /* EzvizviewHeaders */ = {isa = PBXFileReference; lastKnownFileType = folder; path = EzvizviewHeaders; sourceTree = "<group>"; };
+		04944D9826524124000332F5 /* EzvizPlaybackViewManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EzvizPlaybackViewManager.m; sourceTree = "<group>"; };
 		134814201AA4EA6300B7C361 /* libEzvizview.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libEzvizview.a; sourceTree = BUILT_PRODUCTS_DIR; };
-
 		B3E7B5891CC2AC0600A0062D /* Ezvizview.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Ezvizview.m; sourceTree = "<group>"; };
 		F4FF95D5245B92E700C19C63 /* Ezvizview-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Ezvizview-Bridging-Header.h"; sourceTree = "<group>"; };
 		F4FF95D6245B92E800C19C63 /* Ezvizview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Ezvizview.swift; sourceTree = "<group>"; };
-
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -39,12 +80,53 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				04944CC426521CB0000332F5 /* libz.tbd in Frameworks */,
+				04944CC126521CAA000332F5 /* libbz2.tbd in Frameworks */,
+				04944CBE26521CA0000332F5 /* libiconv.2.4.0.tbd in Frameworks */,
+				04944CBB26521C97000332F5 /* libc++.tbd in Frameworks */,
+				04944CB926521C8F000332F5 /* AVFoundation.framework in Frameworks */,
+				04944CB726521C86000332F5 /* CoreTelephony.framework in Frameworks */,
+				04944CB526521C7E000332F5 /* SystemConfiguration.framework in Frameworks */,
+				04944CB326521C75000332F5 /* MobileCoreServices.framework in Frameworks */,
+				04944CB126521C6B000332F5 /* OpenAL.framework in Frameworks */,
+				04944CAF26521C63000332F5 /* GLKit.framework in Frameworks */,
+				04944CAD26521C5B000332F5 /* VideoToolbox.framework in Frameworks */,
+				04944CAB26521C53000332F5 /* AudioToolbox.framework in Frameworks */,
+				04944CA926521C4B000332F5 /* CoreMedia.framework in Frameworks */,
+				04944CA626521C42000332F5 /* libsqlite3.0.tbd in Frameworks */,
+				04944CA326521C2C000332F5 /* libssl.a in Frameworks */,
+				04944CA426521C2C000332F5 /* libcrypto.a in Frameworks */,
+				04944C9F26521BA3000332F5 /* EZOpenSDKFramework.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		04944C9D26521BA3000332F5 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				04944CC326521CB0000332F5 /* libz.tbd */,
+				04944CC026521CAA000332F5 /* libbz2.tbd */,
+				04944CBD26521CA0000332F5 /* libiconv.2.4.0.tbd */,
+				04944CBA26521C97000332F5 /* libc++.tbd */,
+				04944CB826521C8F000332F5 /* AVFoundation.framework */,
+				04944CB626521C86000332F5 /* CoreTelephony.framework */,
+				04944CB426521C7E000332F5 /* SystemConfiguration.framework */,
+				04944CB226521C74000332F5 /* MobileCoreServices.framework */,
+				04944CB026521C6B000332F5 /* OpenAL.framework */,
+				04944CAE26521C63000332F5 /* GLKit.framework */,
+				04944CAC26521C5B000332F5 /* VideoToolbox.framework */,
+				04944CAA26521C53000332F5 /* AudioToolbox.framework */,
+				04944CA826521C4B000332F5 /* CoreMedia.framework */,
+				04944CA526521C41000332F5 /* libsqlite3.0.tbd */,
+				04944CA226521C2C000332F5 /* libcrypto.a */,
+				04944CA126521C2C000332F5 /* libssl.a */,
+				04944C9E26521BA3000332F5 /* EZOpenSDKFramework.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		134814211AA4EA7D00B7C361 /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -56,12 +138,18 @@
 		58B511D21A9E6C8500147676 = {
 			isa = PBXGroup;
 			children = (
-
+				04944D9326524124000332F5 /* EzvizModule.m */,
+				04944D9426524124000332F5 /* EzvizPlaybackView.m */,
+				04944D9826524124000332F5 /* EzvizPlaybackViewManager.m */,
+				04944D9526524124000332F5 /* EzvizPlayerView.m */,
+				04944D9626524124000332F5 /* EzvizPlayerViewManager.m */,
+				04944D9726524124000332F5 /* EzvizviewHeaders */,
+				04944CA026521BCD000332F5 /* com.hri.hpc.mobile.ios.player.metallib */,
 				F4FF95D6245B92E800C19C63 /* Ezvizview.swift */,
 				B3E7B5891CC2AC0600A0062D /* Ezvizview.m */,
 				F4FF95D5245B92E700C19C63 /* Ezvizview-Bridging-Header.h */,
-
 				134814211AA4EA7D00B7C361 /* Products */,
+				04944C9D26521BA3000332F5 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -122,10 +210,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-
+				04944D9B26524124000332F5 /* EzvizPlayerView.m in Sources */,
+				04944D9926524124000332F5 /* EzvizModule.m in Sources */,
+				04944D9A26524124000332F5 /* EzvizPlaybackView.m in Sources */,
+				04944D9C26524124000332F5 /* EzvizPlayerViewManager.m in Sources */,
+				04944D9D26524124000332F5 /* EzvizPlaybackViewManager.m in Sources */,
 				F4FF95D7245B92E800C19C63 /* Ezvizview.swift in Sources */,
-				B3E7B58A1CC2AC0600A0062D /* Ezvizview.m in Sources */,
-
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -228,6 +318,7 @@
 		58B511F01A9E6C8500147676 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ENABLE_BITCODE = NO;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
@@ -238,17 +329,16 @@
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = Ezvizview;
 				SKIP_INSTALL = YES;
-
 				SWIFT_OBJC_BRIDGING_HEADER = "Ezvizview-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
-
 			};
 			name = Debug;
 		};
 		58B511F11A9E6C8500147676 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ENABLE_BITCODE = NO;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
@@ -259,10 +349,8 @@
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = Ezvizview;
 				SKIP_INSTALL = YES;
-
 				SWIFT_OBJC_BRIDGING_HEADER = "Ezvizview-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
-
 			};
 			name = Release;
 		};
