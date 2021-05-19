@@ -1,11 +1,17 @@
 import type { RouteProp } from '@react-navigation/core';
 import type { StackNavigationProp } from '@react-navigation/stack';
-import React, { useState } from 'react';
-import { Alert, Button, View } from 'react-native';
-import { configWifi } from 'react-native-ezvizview';
+import React, { useCallback, useEffect, useState } from 'react';
+import { Alert, Button, Platform, Text, View } from 'react-native';
+import {
+  configWifi,
+  probeDeviceInfo,
+  stopConfigWifi,
+} from 'react-native-ezvizview';
 import { TextInput } from 'react-native-gesture-handler';
 import { addDevice } from '../api';
+import RNLocation from 'react-native-location';
 import type { RootStackParamList } from '../App';
+import useAsyncEffect from 'use-async-effect';
 
 type ScreenNavigationProps = StackNavigationProp<
   RootStackParamList,
@@ -139,38 +145,28 @@ export default function AutoWifiConfigScreen({ route, navigation }: Props) {
         value={password}
         onChangeText={(v) => setPassword(v)}
       />
-      <Button
-        title="确定"
-        disabled={ssid.trim() === ''}
-        onPress={async () => {
-          if (ssid.trim() !== '') {
-            try {
-              await configWifi(
-                deviceSerial,
-                deviceType,
-                validateCode,
-                ssid,
-                password
-              );
-              await addDevice({
-                accessToken,
-                deviceSerial,
-                validateCode,
-              });
-              Alert.alert('设备添加成功', '', [
-                {
-                  text: '确定',
-                  onPress: () => {
-                    navigation.goBack();
-                  },
-                },
-              ]);
-            } catch (error) {
-              Alert.alert('配网失败', error.message);
-            }
-          }
-        }}
-      />
+      {isOnConfig ? (
+        <Text
+          style={{
+            marginVertical: 50,
+            color: '#fff',
+          }}
+        >
+          正在配网...，倒计时：{countDownTimeout}
+        </Text>
+      ) : isTimeout ? (
+        <Button
+          title="配网超时，点击重试"
+          disabled={ssid.trim() === ''}
+          onPress={handleConfigWifi}
+        />
+      ) : (
+        <Button
+          title="开始配网"
+          disabled={ssid.trim() === ''}
+          onPress={handleConfigWifi}
+        />
+      )}
     </View>
   );
 }

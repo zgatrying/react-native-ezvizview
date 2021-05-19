@@ -8,6 +8,23 @@
 
 /* Begin PBXBuildFile section */
 		00E356F31AD99517003FC87E /* EzvizviewExampleTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* EzvizviewExampleTests.m */; };
+		041C9A44264E5D470091B56D /* scan.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 041C9A43264E5D470091B56D /* scan.mp3 */; };
+		041C9A63264E7D6F0091B56D /* ExternalAccessory.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 041C9A62264E7D6F0091B56D /* ExternalAccessory.framework */; };
+		04944C682652192B000332F5 /* libsqlite3.0.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 04944C672652192B000332F5 /* libsqlite3.0.tbd */; };
+		04944C6E26521937000332F5 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 04944C6D26521937000332F5 /* libz.tbd */; };
+		04944C7426521942000332F5 /* libbz2.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 04944C7326521942000332F5 /* libbz2.tbd */; };
+		04944C7A2652196B000332F5 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04944C792652196B000332F5 /* CoreMedia.framework */; };
+		04944C7C26521975000332F5 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04944C7B26521975000332F5 /* AudioToolbox.framework */; };
+		04944C7E26521980000332F5 /* VideoToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04944C7D26521980000332F5 /* VideoToolbox.framework */; };
+		04944C802652198B000332F5 /* GLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04944C7F2652198B000332F5 /* GLKit.framework */; };
+		04944C8226521996000332F5 /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04944C8126521996000332F5 /* OpenAL.framework */; };
+		04944C84265219A6000332F5 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04944C83265219A5000332F5 /* MobileCoreServices.framework */; };
+		04944C86265219B1000332F5 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04944C85265219B1000332F5 /* SystemConfiguration.framework */; };
+		04944C88265219C0000332F5 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04944C87265219C0000332F5 /* CoreTelephony.framework */; };
+		04944C8A265219CA000332F5 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04944C89265219C9000332F5 /* AVFoundation.framework */; };
+		04944C8C265219D8000332F5 /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 04944C8B265219D8000332F5 /* libc++.tbd */; };
+		04944C92265219EF000332F5 /* libiconv.2.4.0.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 04944C91265219EF000332F5 /* libiconv.2.4.0.tbd */; };
+		04944C9826521A36000332F5 /* com.hri.hpc.mobile.ios.player.metallib in Resources */ = {isa = PBXBuildFile; fileRef = 04944C9726521A36000332F5 /* com.hri.hpc.mobile.ios.player.metallib */; };
 		13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
@@ -41,6 +58,26 @@
 		00E356EE1AD99517003FC87E /* EzvizviewExampleTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = EzvizviewExampleTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00E356F21AD99517003FC87E /* EzvizviewExampleTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EzvizviewExampleTests.m; sourceTree = "<group>"; };
+		041C9A43264E5D470091B56D /* scan.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = scan.mp3; path = ../android/app/src/main/res/raw/scan.mp3; sourceTree = "<group>"; };
+		041C9A49264E679F0091B56D /* EzvizviewExample.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = EzvizviewExample.entitlements; path = EzvizviewExample/EzvizviewExample.entitlements; sourceTree = "<group>"; };
+		041C9A62264E7D6F0091B56D /* ExternalAccessory.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ExternalAccessory.framework; path = System/Library/Frameworks/ExternalAccessory.framework; sourceTree = SDKROOT; };
+		04944C632652190E000332F5 /* libssl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libssl.a; path = ../../../iOS/EZOpensdk_iOS_4.16.1_build20210330/openssl/libssl.a; sourceTree = "<group>"; };
+		04944C642652190E000332F5 /* libcrypto.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcrypto.a; path = ../../../iOS/EZOpensdk_iOS_4.16.1_build20210330/openssl/libcrypto.a; sourceTree = "<group>"; };
+		04944C672652192B000332F5 /* libsqlite3.0.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.0.tbd; path = usr/lib/libsqlite3.0.tbd; sourceTree = SDKROOT; };
+		04944C6D26521937000332F5 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
+		04944C7326521942000332F5 /* libbz2.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libbz2.tbd; path = usr/lib/libbz2.tbd; sourceTree = SDKROOT; };
+		04944C792652196B000332F5 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
+		04944C7B26521975000332F5 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
+		04944C7D26521980000332F5 /* VideoToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = VideoToolbox.framework; path = System/Library/Frameworks/VideoToolbox.framework; sourceTree = SDKROOT; };
+		04944C7F2652198B000332F5 /* GLKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLKit.framework; path = System/Library/Frameworks/GLKit.framework; sourceTree = SDKROOT; };
+		04944C8126521996000332F5 /* OpenAL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenAL.framework; path = System/Library/Frameworks/OpenAL.framework; sourceTree = SDKROOT; };
+		04944C83265219A5000332F5 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
+		04944C85265219B1000332F5 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		04944C87265219C0000332F5 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
+		04944C89265219C9000332F5 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		04944C8B265219D8000332F5 /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
+		04944C91265219EF000332F5 /* libiconv.2.4.0.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libiconv.2.4.0.tbd; path = usr/lib/libiconv.2.4.0.tbd; sourceTree = SDKROOT; };
+		04944C9726521A36000332F5 /* com.hri.hpc.mobile.ios.player.metallib */ = {isa = PBXFileReference; lastKnownFileType = "archive.metal-library"; path = com.hri.hpc.mobile.ios.player.metallib; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* EzvizviewExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EzvizviewExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = EzvizviewExample/AppDelegate.h; sourceTree = "<group>"; };
 		13B07FB01A68108700A75B9A /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = EzvizviewExample/AppDelegate.m; sourceTree = "<group>"; };
@@ -69,6 +106,21 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				04944C92265219EF000332F5 /* libiconv.2.4.0.tbd in Frameworks */,
+				04944C8C265219D8000332F5 /* libc++.tbd in Frameworks */,
+				04944C8A265219CA000332F5 /* AVFoundation.framework in Frameworks */,
+				04944C88265219C0000332F5 /* CoreTelephony.framework in Frameworks */,
+				04944C86265219B1000332F5 /* SystemConfiguration.framework in Frameworks */,
+				04944C84265219A6000332F5 /* MobileCoreServices.framework in Frameworks */,
+				04944C8226521996000332F5 /* OpenAL.framework in Frameworks */,
+				04944C802652198B000332F5 /* GLKit.framework in Frameworks */,
+				04944C7E26521980000332F5 /* VideoToolbox.framework in Frameworks */,
+				04944C7C26521975000332F5 /* AudioToolbox.framework in Frameworks */,
+				04944C7A2652196B000332F5 /* CoreMedia.framework in Frameworks */,
+				04944C7426521942000332F5 /* libbz2.tbd in Frameworks */,
+				04944C6E26521937000332F5 /* libz.tbd in Frameworks */,
+				04944C682652192B000332F5 /* libsqlite3.0.tbd in Frameworks */,
+				041C9A63264E7D6F0091B56D /* ExternalAccessory.framework in Frameworks */,
 				4C39C56BAD484C67AA576FFA /* libPods-EzvizviewExample.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -110,6 +162,8 @@
 		13B07FAE1A68108700A75B9A /* EzvizviewExample */ = {
 			isa = PBXGroup;
 			children = (
+				041C9A49264E679F0091B56D /* EzvizviewExample.entitlements */,
+				041C9A43264E5D470091B56D /* scan.mp3 */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
@@ -124,6 +178,23 @@
 		2D16E6871FA4F8E400B85C8A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				04944C91265219EF000332F5 /* libiconv.2.4.0.tbd */,
+				04944C8B265219D8000332F5 /* libc++.tbd */,
+				04944C89265219C9000332F5 /* AVFoundation.framework */,
+				04944C87265219C0000332F5 /* CoreTelephony.framework */,
+				04944C85265219B1000332F5 /* SystemConfiguration.framework */,
+				04944C83265219A5000332F5 /* MobileCoreServices.framework */,
+				04944C8126521996000332F5 /* OpenAL.framework */,
+				04944C7F2652198B000332F5 /* GLKit.framework */,
+				04944C7D26521980000332F5 /* VideoToolbox.framework */,
+				04944C7B26521975000332F5 /* AudioToolbox.framework */,
+				04944C792652196B000332F5 /* CoreMedia.framework */,
+				04944C7326521942000332F5 /* libbz2.tbd */,
+				04944C6D26521937000332F5 /* libz.tbd */,
+				04944C672652192B000332F5 /* libsqlite3.0.tbd */,
+				04944C642652190E000332F5 /* libcrypto.a */,
+				04944C632652190E000332F5 /* libssl.a */,
+				041C9A62264E7D6F0091B56D /* ExternalAccessory.framework */,
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
 				ED2971642150620600B7C4FE /* JavaScriptCore.framework */,
 				CA3E69C5B9553B26FBA2DF04 /* libPods-EzvizviewExample.a */,
@@ -150,6 +221,7 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				04944C9726521A36000332F5 /* com.hri.hpc.mobile.ios.player.metallib */,
 				13B07FAE1A68108700A75B9A /* EzvizviewExample */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				00E356EF1AD99517003FC87E /* EzvizviewExampleTests */,
@@ -205,7 +277,7 @@
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
 				C1D60D28B925C94BD88E79D7 /* [CP] Copy Pods Resources */,
-				B3DCB8B551E48771332199E8 /* [CP] Embed Pods Frameworks */,
+				2A442285F60C5313A76B342D /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -266,6 +338,7 @@
 						TestTargetID = 13B07F861A680F5B00A75B9A;
 					};
 					13B07F861A680F5B00A75B9A = {
+						DevelopmentTeam = M8J9P6J849;
 						LastSwiftMigration = 1120;
 						ProvisioningStyle = Automatic;
 					};
@@ -314,7 +387,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
+				04944C9826521A36000332F5 /* com.hri.hpc.mobile.ios.player.metallib in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
+				041C9A44264E5D470091B56D /* scan.mp3 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -351,7 +426,10 @@
 			shellScript = "export NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh";
 		};
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> dev
 		2A442285F60C5313A76B342D /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -370,7 +448,10 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-EzvizviewExample/Pods-EzvizviewExample-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
+<<<<<<< HEAD
 >>>>>>> 547696b... chore(update): 1. 将Frameworks目录移到与ios目录同级; 2. 删除Libraries目录并调整react-native-ezvizview.podspec;
+=======
+>>>>>>> dev
 		2D02E4CB1E0B4B27006451C7 /* Bundle React Native Code And Images */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -405,24 +486,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		B3DCB8B551E48771332199E8 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-EzvizviewExample/Pods-EzvizviewExample-frameworks.sh",
-				"${PODS_ROOT}/EZOpenSDK/dist/EZOpenSDK/dynamicSDK/EZOpenSDKFramework.framework",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/EZOpenSDKFramework.framework",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-EzvizviewExample/Pods-EzvizviewExample-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		C1D60D28B925C94BD88E79D7 /* [CP] Copy Pods Resources */ = {
@@ -582,19 +645,29 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_WEAK = NO;
+				CODE_SIGN_ENTITLEMENTS = EzvizviewExample/EzvizviewExample.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = M8J9P6J849;
 				ENABLE_BITCODE = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				INFOPLIST_FILE = EzvizviewExample/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.ezviz.example;
+				PRODUCT_BUNDLE_IDENTIFIER = com.easemore.app;
 				PRODUCT_NAME = EzvizviewExample;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -610,19 +683,29 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_WEAK = NO;
+				CODE_SIGN_ENTITLEMENTS = EzvizviewExample/EzvizviewExample.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = M8J9P6J849;
 				ENABLE_BITCODE = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				INFOPLIST_FILE = EzvizviewExample/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.ezviz.example;
+				PRODUCT_BUNDLE_IDENTIFIER = com.easemore.app;
 				PRODUCT_NAME = EzvizviewExample;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
