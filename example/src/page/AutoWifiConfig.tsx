@@ -24,7 +24,92 @@ export default function AutoWifiConfigScreen({ route, navigation }: Props) {
   const { accessToken, deviceSerial, deviceType, validateCode } = routeParams;
   const [ssid, setSsid] = useState('');
   const [password, setPassword] = useState('');
-  console.log('deviceSerial', deviceSerial);
+  const [isOnConfig, setIsOnConfig] = useState(false);
+  const [countDownTimeout, setCountDownTimeout] = useState(60);
+  const [isTimeout, setIsTimeout] = useState(false);
+
+  useEffect(() => {
+    if (Platform.OS === 'ios') {
+      RNLocation.requestPermission({
+        ios: 'whenInUse',
+      }).then((granted) => {
+        if (granted) {
+          console.log('已获取定位权限');
+        } else {
+          console.log('获取定位权限失败');
+          Alert.alert('提示', '请在设置中允许App使用定位权限后重试!', [
+            {
+              text: '确定',
+              onPress: () => {
+                navigation.goBack();
+              },
+            },
+          ]);
+        }
+      });
+    }
+    return () => {
+      stopConfigWifi();
+    };
+  }, [navigation]);
+
+  useAsyncEffect(async () => {
+    if (isOnConfig) {
+      if (countDownTimeout > 0) {
+        setTimeout(() => {
+          setCountDownTimeout(countDownTimeout - 1);
+        }, 1000);
+      } else {
+        setIsTimeout(true);
+        setIsOnConfig(false);
+        setCountDownTimeout(60);
+        stopConfigWifi();
+        let res = await probeDeviceInfo(deviceSerial, deviceType);
+        console.log(
+          '-->未接收到注册平台消息，超时后检查设备状态判断是否添加设备'
+        );
+        if (res.isAbleToAdd && !res.isNeedToConfigWifi) {
+          handleAddDevice();
+        }
+      }
+    }
+  }, [isOnConfig, countDownTimeout]);
+
+  const handleAddDevice = useCallback(async () => {
+    await addDevice({
+      accessToken,
+      deviceSerial,
+      validateCode,
+    });
+    Alert.alert('设备添加成功', '', [
+      {
+        text: '确定',
+        onPress: () => {
+          navigation.goBack();
+        },
+      },
+    ]);
+  }, [accessToken, deviceSerial, navigation, validateCode]);
+
+  const handleConfigWifi = useCallback(async () => {
+    if (ssid.trim() !== '') {
+      setIsOnConfig(true);
+      try {
+        await configWifi(
+          deviceSerial,
+          deviceType,
+          validateCode,
+          ssid,
+          password
+        );
+        console.log('------->>正常接收到注册平台消息，添加设备');
+        handleAddDevice();
+      } catch (error) {
+        console.log('error', error.message);
+      }
+    }
+  }, [deviceSerial, deviceType, handleAddDevice, password, ssid, validateCode]);
+
   return (
     <View
       style={{
