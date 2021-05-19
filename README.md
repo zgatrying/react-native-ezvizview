@@ -194,7 +194,9 @@ public class MainApplication extends Application implements ReactApplication {
   pod install
   ```
 
-  然后向`AppDelegate.m`中添加以下内容：
+  其他配置参考[萤石iOS SDK使用说明](https://open.ys7.com/doc/zh/book/4.x/ios-sdk.html)
+
+  最后向`AppDelegate.m`中添加以下内容：
   ```swift
   #import <EZOpenSDKFramework/EZOpenSDK.h>
   #import <EZOpenSDKFramework/EZHCNetDeviceSDK.h>
@@ -286,6 +288,9 @@ Prop | 描述
 |方法名 | 描述 |
 | --- | --- |
 |decryptUrl| 解密告警消息图片url返回base64字符串 |
+|probeDeviceInfo| 调用sdk的probeDeviceInfo方法，查询设备状态信息|
+|requestWhenInUseAuthorization | 请求获取定位权限（ios端调用设备配网方法前必须先获取定位权限）|
+|configWifi|调用sdk的配网方法|
 
 ## 参考
 

@@ -9,6 +9,7 @@
   "source": "src/index",
   "files": [
     "src",
+    "Frameworks",
     "lib",
     "android",
     "ios",
