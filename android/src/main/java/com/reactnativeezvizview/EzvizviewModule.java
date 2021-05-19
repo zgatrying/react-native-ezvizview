@@ -77,6 +77,57 @@ public class EzvizviewModule extends ReactContextBaseJavaModule {
   private boolean isPlatConnected = false;
 
   @ReactMethod
+  public void stopConfigWifi() {
+    EZOpenSDK.getInstance().stopConfigWiFi();
+  }
+
+  @ReactMethod
+  public void probeDeviceInfo(
+    String deviceSerial,
+    String deviceType,
+    Promise promise
+  ) {
+    final EZProbeDeviceInfoResult deviceInfoResult = EZOpenSDK.getInstance().probeDeviceInfo(deviceSerial, deviceType);
+    WritableNativeMap result = new WritableNativeMap();
+    if(deviceInfoResult.getBaseException() == null) {
+      result.putString("message", "设备已在线，可进行添加设备操作");
+      result.putBoolean("isAbleToAdd", true);
+      result.putBoolean("isNeedToConfigWifi", false);
+    } else {
+      switch (deviceInfoResult.getBaseException().getErrorCode()) {
+        case 120023:
+        case 120002:
+        case 120029:
+          result.putString("message", "设备不在线，需要配网");
+          result.putBoolean("isAbleToAdd", true);
+          result.putBoolean("isNeedToConfigWifi", true);
+          break;
+        case 120020:
+          result.putString("message", "设备在线，已经被自己添加");
+          result.putBoolean("isAbleToAdd", false);
+          result.putBoolean("isNeedToConfigWifi", false);
+          break;
+        case 120022:
+          result.putString("message", "设备在线，已经被别的用户添加");
+          result.putBoolean("isAbleToAdd", false);
+          result.putBoolean("isNeedToConfigWifi", false);
+          break;
+        case 120024:
+          result.putString("message", "设备不在线，已被别的用户添加");
+          result.putBoolean("isAbleToAdd", false);
+          result.putBoolean("isNeedToConfigWifi", false);
+          break;
+        default:
+          result.putString("message", "Request failed = " + deviceInfoResult.getBaseException().getErrorCode());
+          result.putBoolean("isAbleToAdd", false);
+          result.putBoolean("isNeedToConfigWifi", false);
+          break;
+      }
+    }
+    promise.resolve(result);
+  }
+
+  @ReactMethod
   public void configWifi(
     String deviceSerial,
     String deviceType,

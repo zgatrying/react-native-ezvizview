@@ -4,7 +4,7 @@
  */
 
 import axios from 'axios';
-import { NativeModules, NativeEventEmitter } from 'react-native';
+import { NativeModules, NativeEventEmitter, Platform } from 'react-native';
 import qs from 'qs';
 
 export const RNEzvizview = NativeModules.RNEzvizview;
@@ -91,4 +91,13 @@ export async function probeDeviceInfo(
   let res = await RNEzvizview.probeDeviceInfo(deviceSerial, deviceType);
   console.log('查询结果', res);
   return res;
+}
+
+export async function requestWhenInUseAuthorization() {
+  if (Platform.OS === 'ios') {
+    let isAllowed: boolean = await RNEzvizview.requestWhenInUseAuthorization();
+    return isAllowed;
+  } else {
+    return false;
+  }
 }

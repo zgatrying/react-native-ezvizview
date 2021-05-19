@@ -14,15 +14,38 @@
 
 #define EZOPENSDK [EZOpenSDK class]
 
-@interface RNEzvizview : NSObject<RCTBridgeModule>
+@interface RNEzvizview : NSObject<RCTBridgeModule, CLLocationManagerDelegate>
 
-@property (nonatomic, strong) CLLocationManager *locationmanager;
+@property (strong, nonatomic) CLLocationManager *locationManager;
+@property (strong, nonatomic) RCTPromiseResolveBlock whenInUsePermissionResolver;
 
 @end
 
 @implementation RNEzvizview
 
 RCT_EXPORT_MODULE();
+
+#pragma mark - Initialization
+
++ (BOOL)requiresMainQueueSetup
+{
+    return YES;
+}
+
+- (instancetype)init
+{
+    if (self = [super init]) {
+        self.locationManager = [[CLLocationManager alloc] init];
+        self.locationManager.delegate = self;
+    }
+
+    return self;
+}
+
+- (void)dealloc
+{
+    self.locationManager = nil;
+}
 
 RCT_EXPORT_METHOD(setAccessToken: (NSString *) accessToken)
 {
@@ -51,6 +74,38 @@ RCT_EXPORT_METHOD(decryptData: (NSArray *) encryptData
 RCT_EXPORT_METHOD(stopConfigWifi)
 {
     [EZOPENSDK stopConfigWifi];
+}
+
+RCT_REMAP_METHOD(requestWhenInUseAuthorization,
+                 requestWhenInUseAuthorizationWithResolver:(RCTPromiseResolveBlock)resolve
+                 rejecter:(RCTPromiseRejectBlock)reject)
+{
+    // Get the current status
+    CLAuthorizationStatus status = [CLLocationManager authorizationStatus];
+    
+    if (status == kCLAuthorizationStatusAuthorizedAlways || status == kCLAuthorizationStatusAuthorizedWhenInUse) {
+        // We already have the correct status so resolve with true
+        resolve(@(YES));
+    } else if (status == kCLAuthorizationStatusNotDetermined) {
+        // If we have not asked, or we have "when in use" permission, ask for always permission
+        [self.locationManager requestWhenInUseAuthorization];
+        // Save the resolver so we can return a result later on
+        self.whenInUsePermissionResolver = resolve;
+    } else {
+        // We are not in a state to ask for permission so resolve with false
+        resolve(@(NO));
+    }
+}
+
+#pragma mark - CLLocationManagerDelegate
+
+- (void)locationManager:(CLLocationManager *)manager didChangeAuthorizationStatus:(CLAuthorizationStatus)status
+{
+    // Handle the when in use permission resolver
+    if (self.whenInUsePermissionResolver != nil) {
+        self.whenInUsePermissionResolver(@(status == kCLAuthorizationStatusAuthorizedWhenInUse));
+        self.whenInUsePermissionResolver = nil;
+    }
 }
 
 RCT_EXPORT_METHOD(probeDeviceInfo: (NSString *) deviceSerial
@@ -128,6 +183,7 @@ RCT_EXPORT_METHOD(
                        else if (status == DEVICE_PLATFORM_REGISTED)
                        {
                            resolver(@{@"message": @"设备注册平台成功, 可进行添加设备操作", @"isAbleToAdd": @YES});
+                           [EZOPENSDK stopConfigWifi];
                        }
                    }];
                }

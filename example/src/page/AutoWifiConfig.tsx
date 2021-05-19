@@ -5,11 +5,11 @@ import { Alert, Button, Platform, Text, View } from 'react-native';
 import {
   configWifi,
   probeDeviceInfo,
+  requestWhenInUseAuthorization,
   stopConfigWifi,
 } from 'react-native-ezvizview';
 import { TextInput } from 'react-native-gesture-handler';
 import { addDevice } from '../api';
-import RNLocation from 'react-native-location';
 import type { RootStackParamList } from '../App';
 import useAsyncEffect from 'use-async-effect';
 
@@ -36,9 +36,7 @@ export default function AutoWifiConfigScreen({ route, navigation }: Props) {
 
   useEffect(() => {
     if (Platform.OS === 'ios') {
-      RNLocation.requestPermission({
-        ios: 'whenInUse',
-      }).then((granted) => {
+      requestWhenInUseAuthorization().then((granted) => {
         if (granted) {
           console.log('已获取定位权限');
         } else {
@@ -109,7 +107,8 @@ export default function AutoWifiConfigScreen({ route, navigation }: Props) {
           password
         );
         console.log('------->>正常接收到注册平台消息，添加设备');
-        handleAddDevice();
+        await handleAddDevice();
+        setIsOnConfig(false);
       } catch (error) {
         console.log('error', error.message);
       }
