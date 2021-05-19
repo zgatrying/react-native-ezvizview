@@ -432,7 +432,7 @@
 			);
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-EzvizviewExample/Pods-EzvizviewExample-frameworks.sh",
-				"${PODS_ROOT}/../../../ios/Frameworks/EZOpenSDKFramework.framework",
+				"${PODS_ROOT}/../../../Frameworks/EZOpenSDKFramework.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (

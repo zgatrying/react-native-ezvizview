@@ -28,8 +28,8 @@ type Props = {
 export default function AutoWifiConfigScreen({ route, navigation }: Props) {
   const routeParams = route.params;
   const { accessToken, deviceSerial, deviceType, validateCode } = routeParams;
-  const [ssid, setSsid] = useState('Easemore');
-  const [password, setPassword] = useState('easemore85177317');
+  const [ssid, setSsid] = useState('');
+  const [password, setPassword] = useState('');
   const [isOnConfig, setIsOnConfig] = useState(false);
   const [countDownTimeout, setCountDownTimeout] = useState(60);
   const [isTimeout, setIsTimeout] = useState(false);
