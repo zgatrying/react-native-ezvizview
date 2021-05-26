@@ -139,10 +139,36 @@ RCT_EXPORT_METHOD(probeDeviceInfo: (NSString *) deviceSerial
     }];
 }
 
-RCT_EXPORT_METHOD(
-                  configWifi: (NSString *) deviceSerial
-                  deviceType: (NSString *) deviceType
+RCT_EXPORT_METHOD(stopAPConfigWifi)
+{
+    [EZOPENSDK stopAPConfigWifi];
+}
+
+RCT_EXPORT_METHOD(startAPConfigWifi: (NSString *) Ssid
+                  password: (NSString *) password
+                  deviceSerial: (NSString *) deviceSerial
                   verifyCode: (NSString *) verifyCode
+                  resolver: (RCTPromiseResolveBlock) resolver
+                  rejector: (RCTPromiseRejectBlock) rejector)
+{
+    [EZOPENSDK startAPConfigWifiWithSsid:Ssid password:password deviceSerial:deviceSerial verifyCode:verifyCode result:^(BOOL ret) {
+       if(ret)
+       {
+           NSLog(@"配置成功");
+           resolver(@YES);
+       }
+        else
+        {
+            NSLog(@"配置失败");
+            rejector(@"配置失败", @"retuen error", nil);
+        }
+        [EZOPENSDK stopAPConfigWifi];
+    }];
+}
+
+RCT_EXPORT_METHOD(
+                  startConfigWifi: (NSString *) deviceSerial
+                  deviceType: (NSString *) deviceType
                   wifiSSID: (NSString *) wifiSSID
                   wifiPassword: (NSString *) wifiPassword
                   resolver: (RCTPromiseResolveBlock) resolver
@@ -165,7 +191,6 @@ RCT_EXPORT_METHOD(
                if(deviceInfo)
                {
                    NSInteger mode = 0;
-                   mode |= deviceInfo.supportWifi == 3?EZWiFiConfigSmart:0;
                    mode |= deviceInfo.supportSoundWave == 1?EZWiFiConfigWave:0;
                    [EZOPENSDK startConfigWifi:wifiSSID
                                      password:wifiPassword

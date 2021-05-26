@@ -18,11 +18,8 @@
 - [x] 实现云台控制功能
 - [x] 实现布撤防功能
 - [x] 解密指定设备上的加密过的告警消息图片 url
-- [x] 实现告警录像回放（回放类型：远程 SD 卡）
-- [x] 实现告警录像回放的播放、暂停、重新播放（回放类型：远程 SD 卡）
-- [x] 实现设备配网功能（包含AP配网、声波配网等）
-- [ ] 实现告警录像回放（回放类型：云存储）
-- [ ] 实现告警录像回放的播放、暂停、重新播放（回放类型：云存储）
+- [x] 实现声波配网功能
+- [x] 实现AP配网功能
 
 **iOS 端**
 
@@ -32,11 +29,9 @@
 - [x] 实现云台控制功能
 - [x] 实现布撤防功能
 - [x] 解密指定设备上的加密过的告警消息图片 url
-- [x] 实现告警录像回放（回放类型：远程 SD 卡）
-- [x] 实现告警录像回放的播放、暂停、重新播放（回放类型：远程 SD 卡）
-- [x] 实现设备配网功能（包含AP配网、声波配网等）
-- [ ] 实现告警录像回放（回放类型：云存储）
-- [ ] 实现告警录像回放的播放、暂停、重新播放（回放类型：云存储）
+- [x] 实现声波配网功能；
+- [x] 实现AP配网功能；
+
 ## Installation
 
 ```sh
@@ -289,9 +284,12 @@ Prop | 描述
 |方法名 | 描述 |
 | --- | --- |
 |decryptUrl| 解密告警消息图片url返回base64字符串 |
-|probeDeviceInfo| 调用sdk的probeDeviceInfo方法，查询设备状态信息|
-|requestWhenInUseAuthorization | 请求获取定位权限（ios端调用设备配网方法前必须先获取定位权限）|
-|configWifi|调用sdk的配网方法|
+|probeDeviceInfo| 调用sdk的probeDeviceInfo方法，查询设备状态信息（包含归属状态、网络状态等消息）|
+|requestWhenInUseAuthorization | 仅ios，请求获取定位权限（因为ios端调用设备配网方法前必须先获取定位权限，所以才增加了此方法）|
+|startConfigWifi| 调用sdk的声波配网方法 |
+|stopConfigWifi| 调用sdk的停止配网方法 |
+|startAPConfigWifi| 调用sdk的AP配网方法 |
+|stopAPConfigWifi| 调用sdk的停止AP配网方法 |
 
 ## 参考
 

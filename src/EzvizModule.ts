@@ -45,35 +45,53 @@ export async function decryptUrl(encryptUrl: string, verifyCode: string) {
 }
 
 /**
- * 设备配网
+ * 声波配网
  * @param deviceSerial
  * @param deviceType
- * @param validateCode
  * @param wifiSSID
  * @param wifiPassword
  * @returns
  */
-export function configWifi(
+export function startConfigWifi(
   deviceSerial: string,
   deviceType: string,
-  validateCode: string,
   wifiSSID: string,
   wifiPassword: string
 ) {
-  return RNEzvizview.configWifi(
+  return RNEzvizview.startConfigWifi(
     deviceSerial,
     deviceType,
-    validateCode,
     wifiSSID,
     wifiPassword
   );
 }
 
+export function startAPConfigWifi(
+  wifiSSID: string,
+  wifiPassword: string,
+  deviceSerial: string,
+  verifyCode: string
+) {
+  return RNEzvizview.startAPConfigWifi(
+    wifiSSID,
+    wifiPassword,
+    deviceSerial,
+    verifyCode
+  );
+}
+
 /**
- * 停止设备配网
+ * 停止声波配网
  */
 export function stopConfigWifi() {
   RNEzvizview.stopConfigWifi();
+}
+
+/**
+ * 停止AP配网
+ */
+export function stopAPConfigWifi() {
+  RNEzvizview.stopAPConfigWifi();
 }
 
 /**

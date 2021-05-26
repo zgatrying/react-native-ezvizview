@@ -71,17 +71,31 @@ export default function ScanResultScreen({ route, navigation }: Props) {
 
         {(deviceInfo === undefined ||
           (deviceInfo && deviceInfo.status === 0)) && (
-          <Button
-            title="下一步"
-            onPress={() => {
-              navigation.navigate('AutoWifiConfig', {
-                deviceSerial,
-                deviceType,
-                validateCode: verifyCode,
-                accessToken,
-              });
-            }}
-          />
+          <>
+            <Button
+              title="前往声波配网"
+              onPress={() => {
+                navigation.navigate('AutoWifiConfig', {
+                  deviceSerial,
+                  deviceType,
+                  validateCode: verifyCode,
+                  accessToken,
+                });
+              }}
+            />
+            <Divider />
+            <Button
+              title="前往AP配网"
+              onPress={() => {
+                navigation.navigate('APWifiConfig', {
+                  deviceSerial,
+                  deviceType,
+                  validateCode: verifyCode,
+                  accessToken,
+                });
+              }}
+            />
+          </>
         )}
         {deviceInfo && deviceInfo.status === 1 && (
           <View>

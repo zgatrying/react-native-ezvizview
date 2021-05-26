@@ -12,6 +12,7 @@ import DeviceInfoScreen from './page/DeviceInfoScreen';
 import AutoWifiConfigScreen from './page/AutoWifiConfig';
 import ScanScreen from './page/ScanScreen';
 import ScanResultScreen from './page/ScanResultScreen';
+import APWifiConfigScreen from './page/APWifiConfig';
 
 const Stack = createStackNavigator();
 
@@ -37,6 +38,12 @@ export type RootStackParamList = {
     deviceSerial: string;
   };
   AutoWifiConfig: {
+    accessToken: string;
+    deviceSerial: string;
+    validateCode: string;
+    deviceType: string;
+  };
+  APWifiConfig: {
     accessToken: string;
     deviceSerial: string;
     validateCode: string;
@@ -89,8 +96,13 @@ export default function App() {
         />
         <Stack.Screen
           name="AutoWifiConfig"
-          options={{ title: '设备配网' }}
+          options={{ title: '声波配网' }}
           component={AutoWifiConfigScreen}
+        />
+        <Stack.Screen
+          name="APWifiConfig"
+          options={{ title: 'AP配网' }}
+          component={APWifiConfigScreen}
         />
         <Stack.Screen
           name="ScanScreen"

@@ -82,6 +82,11 @@ public class EzvizviewModule extends ReactContextBaseJavaModule {
   }
 
   @ReactMethod
+  public void stopAPConfigWifi() {
+    EZOpenSDK.getInstance().stopAPConfigWifiWithSsid();
+  }
+
+  @ReactMethod
   public void probeDeviceInfo(
     String deviceSerial,
     String deviceType,
@@ -128,44 +133,13 @@ public class EzvizviewModule extends ReactContextBaseJavaModule {
   }
 
   @ReactMethod
-  public void configWifi(
-    String deviceSerial,
-    String deviceType,
-    String verifyCode,
+  public void startAPConfigWifi(
     String wifiSSID,
     String wifiPassword,
+    String deviceSerial,
+    String verifyCode,
     Promise promise
   ) {
-    final EZProbeDeviceInfoResult result = EZOpenSDK.getInstance().probeDeviceInfo(deviceSerial, deviceType);
-    isWifiConnected = false;
-    isPlatConnected = false;
-    EZOpenSDKListener.EZStartConfigWifiCallback mEZStartConfigWifiCallback = new EZOpenSDKListener.EZStartConfigWifiCallback() {
-      @Override
-      public void onStartConfigWifiCallback(String deviceSerial, final EZConstants.EZWifiConfigStatus status) {
-        runOnUiThread(new Runnable() {
-          @Override
-          public void run() {
-            if (status == EZConstants.EZWifiConfigStatus.DEVICE_WIFI_CONNECTED) {
-              if(isWifiConnected) {
-                Log.i(TAG, "run: 设备wifi连接成功, 且标志位isWifiConnected已为true");
-                return;
-              }
-              Log.d(TAG, "run: 设备wifi连接成功");
-              isWifiConnected = true;
-            } else if (status == EZConstants.EZWifiConfigStatus.DEVICE_PLATFORM_REGISTED) {
-              if(isPlatConnected) {
-                Log.i(TAG, "run: 设备已注册到平台，且标志位isPlatConnected已为true");
-                return;
-              }
-              isPlatConnected = true;
-              EZOpenSDK.getInstance().stopConfigWiFi();
-              Log.d(TAG, "run: 设备注册到平台成功，可以调用添加设备接口添加设备");
-              promise.resolve("success");
-            }
-          }
-        });
-      }
-    };
     APWifiConfig.APConfigCallback apConfigCallback = new APWifiConfig.APConfigCallback() {
       @Override
       public void onSuccess() {
@@ -213,6 +187,52 @@ public class EzvizviewModule extends ReactContextBaseJavaModule {
         }
       }
     };
+    Log.d(TAG, "run: 选择设备热点配网");
+    String deviceHotspotSSID = "EZVIZ_" + deviceSerial;
+    String deviceHotspotPassword = "EZVIZ_" + verifyCode;
+    EZOpenSDK.getInstance().startAPConfigWifiWithSsid(wifiSSID, wifiPassword, deviceSerial, verifyCode, deviceHotspotSSID, deviceHotspotPassword, false, apConfigCallback);
+  }
+
+  @ReactMethod
+  public void startConfigWifi(
+    String deviceSerial,
+    String deviceType,
+    String verifyCode,
+    String wifiSSID,
+    String wifiPassword,
+    Promise promise
+  ) {
+    final EZProbeDeviceInfoResult result = EZOpenSDK.getInstance().probeDeviceInfo(deviceSerial, deviceType);
+    isWifiConnected = false;
+    isPlatConnected = false;
+    EZOpenSDKListener.EZStartConfigWifiCallback mEZStartConfigWifiCallback = new EZOpenSDKListener.EZStartConfigWifiCallback() {
+      @Override
+      public void onStartConfigWifiCallback(String deviceSerial, final EZConstants.EZWifiConfigStatus status) {
+        runOnUiThread(new Runnable() {
+          @Override
+          public void run() {
+            if (status == EZConstants.EZWifiConfigStatus.DEVICE_WIFI_CONNECTED) {
+              if(isWifiConnected) {
+                Log.i(TAG, "run: 设备wifi连接成功, 且标志位isWifiConnected已为true");
+                return;
+              }
+              Log.d(TAG, "run: 设备wifi连接成功");
+              isWifiConnected = true;
+            } else if (status == EZConstants.EZWifiConfigStatus.DEVICE_PLATFORM_REGISTED) {
+              if(isPlatConnected) {
+                Log.i(TAG, "run: 设备已注册到平台，且标志位isPlatConnected已为true");
+                return;
+              }
+              isPlatConnected = true;
+              EZOpenSDK.getInstance().stopConfigWiFi();
+              Log.d(TAG, "run: 设备注册到平台成功，可以调用添加设备接口添加设备");
+              promise.resolve("success");
+            }
+          }
+        });
+      }
+    };
+
     if(result.getBaseException() == null) {
       Log.d(TAG, "configWifi: 查询成功，添加设备");
       promise.resolve("success");
@@ -236,15 +256,6 @@ public class EzvizviewModule extends ReactContextBaseJavaModule {
                   Log.d(TAG, "run: 选择声波配网");
                   EZOpenSDK.getInstance().startConfigWifi(EzvizviewModule.this.reactContext, deviceSerial, wifiSSID, wifiPassword,
                     EZConstants.EZWiFiConfigMode.EZWiFiConfigWave, mEZStartConfigWifiCallback);
-                } else
-//                  if(probeDeviceInfo.getSupportWifi() == 3) {
-//                  Log.d(TAG, "run: 选择smartconfig配网");
-//                  EZOpenSDK.getInstance().startConfigWifi(EzvizviewModule.this.reactContext, deviceSerial, wifiSSID, wifiPassword,
-//                    EZConstants.EZWiFiConfigMode.EZWiFiConfigSmart, mEZStartConfigWifiCallback);
-//                } else
-                  if(probeDeviceInfo.getSupportAP() == 1) {
-                  Log.d(TAG, "run: 选择设备热点配网");
-                  EZOpenSDK.getInstance().startAPConfigWifiWithSsid(wifiSSID, wifiPassword, deviceSerial, verifyCode, apConfigCallback);
                 }
               }
             }

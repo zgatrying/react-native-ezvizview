@@ -3,9 +3,9 @@ import type { StackNavigationProp } from '@react-navigation/stack';
 import React, { useCallback, useEffect, useState } from 'react';
 import { Alert, Button, Platform, Text, View } from 'react-native';
 import {
-  configWifi,
   probeDeviceInfo,
   requestWhenInUseAuthorization,
+  startConfigWifi,
   stopConfigWifi,
 } from 'react-native-ezvizview';
 import { TextInput } from 'react-native-gesture-handler';
@@ -99,13 +99,7 @@ export default function AutoWifiConfigScreen({ route, navigation }: Props) {
     if (ssid.trim() !== '') {
       setIsOnConfig(true);
       try {
-        await configWifi(
-          deviceSerial,
-          deviceType,
-          validateCode,
-          ssid,
-          password
-        );
+        await startConfigWifi(deviceSerial, deviceType, ssid, password);
         console.log('------->>正常接收到注册平台消息，添加设备');
         await handleAddDevice();
         setIsOnConfig(false);
@@ -113,7 +107,7 @@ export default function AutoWifiConfigScreen({ route, navigation }: Props) {
         console.log('error', error.message);
       }
     }
-  }, [deviceSerial, deviceType, handleAddDevice, password, ssid, validateCode]);
+  }, [deviceSerial, deviceType, handleAddDevice, password, ssid]);
 
   return (
     <View
@@ -125,6 +119,7 @@ export default function AutoWifiConfigScreen({ route, navigation }: Props) {
     >
       <TextInput
         style={{
+          height: 40,
           backgroundColor: '#fff',
           borderWidth: 2,
           paddingHorizontal: 12,
@@ -135,6 +130,7 @@ export default function AutoWifiConfigScreen({ route, navigation }: Props) {
       />
       <TextInput
         style={{
+          height: 40,
           backgroundColor: '#fff',
           borderWidth: 2,
           paddingHorizontal: 12,
